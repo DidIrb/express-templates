@@ -1,0 +1,24 @@
+{
+  "name": "exirdjs-cli",
+  "version": "1.0.0",
+  "description": "This is a cli tool to manage an exirdjs project",
+  "main": "dist/cli.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["cli", "exirdjs"],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "exirdjs": "dist/cli.js"
+  },
+  "dependencies": {
+    "inquirer": "^10.1.8"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.5.0",
+    "typescript": "^5.5.4"
+  }
+}

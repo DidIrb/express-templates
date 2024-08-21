@@ -1,0 +1,25 @@
+{
+  "name": "exirdjs",
+  "version": "1.0.0",
+  "description": "exirdjs is a template engine for express. similar to shadcn ui in design aiming to help users set up an express server quickly and easily.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["exirdjs", "express", "templates"],
+  "author": {
+    "name": "irbaye",
+    "url": "https://twitter.com/didaIrbaye"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "only-allow": "^1.2.1"
+  },
+  "packageManager": "pnpm@9.7.1",
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "pnpm": ">= 9.7.1"
+  }
+}
