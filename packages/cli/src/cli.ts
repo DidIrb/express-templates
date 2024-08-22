@@ -1,38 +1,55 @@
-#!/usr/bin/env node
 import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { copyTemplate } from './utils/copy.template.js';
+import { initPrompt } from './prompts/init.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+async function init() {
+  const { projectName, variant } = await initPrompt();
 
-const questions = [
-  {
-    type: 'list',
-    name: 'language',
-    message: 'Which language template would you like to install?',
-    choices: ['JavaScript', 'TypeScript'],
-  },
-];
+  const projectPath = path.resolve(process.cwd(), projectName);
 
-inquirer.prompt(questions).then((answers) => {
-  const templateDir = path.resolve(__dirname, '../../../templates', answers.language.toLowerCase());
-  const targetDir = process.cwd();
+  if (fs.existsSync(projectPath) && fs.readdirSync(projectPath).length > 0) {
+    const { action } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: 'Current directory is not empty. Please choose how to proceed:',
+        choices: [
+          'Remove existing files and continue',
+          'Cancel operation',
+          'Ignore files and continue',
+        ],
+      },
+    ]);
 
-  if (answers.language === 'JavaScript' || answers.language === 'TypeScript') {
-    copyTemplate(templateDir, targetDir);
-  } else {
-    console.log(`Template for ${answers.language} is not yet implemented.`);
+    if (action === 'Cancel operation') {
+      console.log('✖ Operation cancelled.');
+      return;
+    } else if (action === 'Remove existing files and continue') {
+      await fs.emptyDir(projectPath);
+    }
+  }
+
+  await copyTemplate(variant, projectPath);
+}
+
+process.on('SIGINT', async () => {
+  const { confirmCancel } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'confirmCancel',
+      message: 'Do you want to cancel the operation?',
+      default: true,
+    },
+  ]);
+
+  if (confirmCancel) {
+    console.log('✖ Operation cancelled.');
+    process.exit(0);
   }
 });
 
-function copyTemplate(src: string, dest: string) {
-  fs.copy(src, dest, {
-    filter: (src, dest) => {
-      return !src.includes('node_modules');
-    }
-  })
-  .then(() => console.log('Template copied successfully!'))
-  .catch(err => console.error('Error copying template:', err));
-}
+init().catch((error) => {
+  console.error('Error:', error);
+});
