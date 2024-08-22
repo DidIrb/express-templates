@@ -1,55 +1,50 @@
-import inquirer from 'inquirer';
+import Enquirer from 'enquirer';
 import fs from 'fs-extra';
 import path from 'path';
 import { copyTemplate } from './utils/copy.template.js';
 import { initPrompt } from './prompts/init.js';
+import chalk from 'chalk';
+import { InitPromptResponse } from './types/prompts.js';
+const { prompt } = Enquirer;
 
 async function init() {
-  const { projectName, variant } = await initPrompt();
+  const { projectName, variant }: InitPromptResponse = await initPrompt();
 
   const projectPath = path.resolve(process.cwd(), projectName);
 
   if (fs.existsSync(projectPath) && fs.readdirSync(projectPath).length > 0) {
-    const { action } = await inquirer.prompt([
+    const choices = [
+      'Remove existing files and continue',
+      'Cancel operation',
+      'Ignore files and continue'
+    ];
+
+    const { action } = await prompt<{ action: string }>([
       {
-        type: 'list',
+        type: 'select',
         name: 'action',
         message: 'Current directory is not empty. Please choose how to proceed:',
-        choices: [
-          'Remove existing files and continue',
-          'Cancel operation',
-          'Ignore files and continue',
-        ],
+        choices: choices.map(choice => ({ name: choice, value: choice }))
       },
     ]);
+    const actionIndex = choices.indexOf(action);
 
-    if (action === 'Cancel operation') {
-      console.log('✖ Operation cancelled.');
-      return;
-    } else if (action === 'Remove existing files and continue') {
+    if (actionIndex === 1) { 
+      console.log(chalk.red('✖'), 'Operation cancelled.');
+      process.exit(0);
+    } else if (actionIndex === 0) {
       await fs.emptyDir(projectPath);
     }
+    // No need to handle 'Ignore files and continue' as it will just proceed
   }
 
   await copyTemplate(variant, projectPath);
 }
 
-process.on('SIGINT', async () => {
-  const { confirmCancel } = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'confirmCancel',
-      message: 'Do you want to cancel the operation?',
-      default: true,
-    },
-  ]);
-
-  if (confirmCancel) {
-    console.log('✖ Operation cancelled.');
-    process.exit(0);
+(async () => {
+  try {
+    await init();
+  } catch (error) {
+    console.log(chalk.red('✖'), 'Operation cancelled.', error);
   }
-});
-
-init().catch((error) => {
-  console.error('Error:', error);
-});
+})();

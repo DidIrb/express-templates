@@ -1,15 +1,18 @@
-import inquirer from 'inquirer';
+import Enquirer from 'enquirer';
+import { InitPromptResponse } from '../types/prompts';
+const { prompt } = Enquirer;
 
-export async function initPrompt() {
-  return inquirer.prompt([
+
+export async function initPrompt(): Promise<InitPromptResponse> {
+  return prompt<InitPromptResponse>([
     {
       type: 'input',
       name: 'projectName',
       message: 'Project name:',
-      default: 'exirdjs-project',
+      initial: 'exirdjs-project',
     },
     {
-      type: 'list',
+      type: 'select',
       name: 'variant',
       message: 'Select a variant:',
       choices: ['TypeScript', 'JavaScript'],

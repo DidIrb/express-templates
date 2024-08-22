@@ -19,6 +19,7 @@ export async function copyTemplate(variant: string, projectPath: string) {
   } catch (error: any) {
     if (error.code === 'EPERM' && error.syscall === 'symlink') {
       console.error('Error: Operation not permitted. Symbolic links are not supported on this filesystem.');
+
     } else {
       console.error('Error:', error);
     }
@@ -27,9 +28,9 @@ export async function copyTemplate(variant: string, projectPath: string) {
 
 function printCompletionMessage(projectPath: string) {
   console.log(`\nScaffolding project in ${projectPath}...`);
-  console.log('Done. Now run:');
+  console.log('Done. Now run:\n');
   if (projectPath !== process.cwd()) {
-    console.log(`  cd ${path.basename(projectPath)}`);
+    console.log(`cd ${path.basename(projectPath)}`);
   }
   console.log('   npm install');
   console.log('   npm run dev');

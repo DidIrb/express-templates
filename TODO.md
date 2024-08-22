@@ -3,13 +3,16 @@
 - [x] Set up base express javascript template.
 - [x] Set up base express typescript template.
 
+## Templates
+- [ ] Configure project to allow it to change port number if it is not available.
+- [ ] Set up method to ensure files are saved and installed in the right place 
+
 ### Handle Errors in the cli tool
 - [x] Check if new directory is empty before installing throwing appropriate errors.
 - [x] During install ask the user what they should call their code base or use . to specify that path to install it to.
-- [ ] Configure project to allow it to change port number if it is not available.
 - [x] Remove files that are not wanted, node_modules, .npmrc, etc.
-- [ ] Add proper types to the cli tool.
-- [ ] Allow user to cancel and ask them if they want to exit operation.
+- [x] Add types to the cli tool.
+- [x] Allow user to cancel and exit operation using cntr+c | **Partially complete**
 
 ## Styling
 - [ ] Add spinner while packages are being installed.
@@ -19,7 +22,14 @@
 - [ ] Set it up in such a way that users can run npm create exird.
 - [ ] Improve the prompt for users to use the package to install it globally or in the specific project.
 
+## Documentation
+- [ ] Start the documentation of the cli tool.
+- [ ] Create and update readme-fil
+- [ ] Create and update contributions file
+- [ ] Update license
+- [ ] Write a getting started guide for the tool
+- [ ] Document Milestones you want to achieve with this project
+
 ### Deployment
 - [ ] Deploy the package to npm.
-- [ ] Start the documentation of the cli tool.
 - [ ] Update the project to navigate to the appropriate file locations.
