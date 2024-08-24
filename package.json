@@ -12,6 +12,12 @@
     "name": "irbaye",
     "url": "https://twitter.com/didaIrbaye"
   },
+  "private": true,
+  "workspaces": [
+    "packages/cli",
+    "packages/shared",
+    "packages/create-exird"
+  ],
   "license": "ISC",
   "dependencies": {
     "only-allow": "^1.2.1"
