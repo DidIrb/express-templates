@@ -1,10 +1,8 @@
-import Enquirer from 'enquirer';
+import enquirer from 'enquirer';
 import { InitPromptResponse } from '../types/prompts';
-const { prompt } = Enquirer;
-
 
 export async function initPrompt(): Promise<InitPromptResponse> {
-  return prompt<InitPromptResponse>([
+  return enquirer.prompt<InitPromptResponse>([
     {
       type: 'input',
       name: 'projectName',

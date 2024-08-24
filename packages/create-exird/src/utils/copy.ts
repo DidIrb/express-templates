@@ -35,7 +35,7 @@ function printCompletionMessage(destination: string) {
   console.log(`\nScaffolding project in ${destination}...`);
   console.log('Done. Now run:\n');
   if (destination !== process.cwd()) {
-    console.log(`cd ${path.basename(destination)}`);
+    console.log(`   cd ${path.basename(destination)}`);
   }
   console.log('   npm install');
   console.log('   npm run dev');

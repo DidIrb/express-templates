@@ -1,31 +1,28 @@
 {
-  "name": "exird-cli",
+  "name": "exird",
   "version": "0.1.0",
-  "description": "This is a cli tool to manage an exirdjs project",
-  "main": "dist/cli.js",
+  "description": "CLI tool for exirdjs",
+  "main": "dist/index.js",
   "type": "module",
+  "bin": {
+    "exird": "dist/index.js"
+  },
   "scripts": {
-    "build": "tsc --outDir dist && node dist/build.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
   "keywords": [
-    "cli",
+    "express",
+    "exird",
     "exirdjs"
   ],
   "author": {
-    "name": "irbaye"
+    "name": "irbaye",
+    "url": "https://github.com/didirb"
   },
   "license": "ISC",
-  "bin": {
-    "exird-cli": "dist/cli.js"
-  },
-  "dependencies": {
-    "chalk": "^5.3.0",
-    "enquirer": "^2.4.1",
-    "fs-extra": "^11.2.0",
-    "listr": "^0.14.3"
-  },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/listr": "^0.14.9",
@@ -35,5 +32,12 @@
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "enquirer": "^2.4.1",
+    "exird": "file:",
+    "fs-extra": "^11.2.0"
   }
 }

@@ -6,6 +6,7 @@ This file contains things the user is required to do in this project.
 
 ### Initialization
 - [x] Initialize a basic cli tool.
+- [ ] Initialize scaffolding package
 - [x] Set up base express javascript template.
 - [x] Set up base express typescript template.
 - [ ] Prepare package for deployment through github actions.
@@ -21,7 +22,7 @@ This file contains things the user is required to do in this project.
 - [x] During install ask the user what they should call their code base or use . to specify that path to install it to.
 - [x] Remove files that are not wanted, node_modules, .npmrc, etc.
 - [x] Add types to the cli tool.
-- [x] Allow user to cancel and exit operation using cntr+c | **Partially complete**
+- [x] Allow user to cancel and exit operation using cntr+c
 
 ## Styling
 - [ ] Add spinner while packages are being installed.

@@ -8,8 +8,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sourceDir = path.resolve(__dirname, '../../../templates');
-const destDir = path.resolve(__dirname, '../dist/templates');
-const buildFile = path.resolve(__dirname, '../dist/build.js');
+const destDir = path.resolve(__dirname, './templates');
+const buildFile = path.resolve(__dirname, './build.js');
 
 const copyTemplates = async (): Promise<void> => {
   try {
