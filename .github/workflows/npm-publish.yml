@@ -45,11 +45,11 @@ jobs:
         shell: bash
 
       - name: Publish create-exird
-        run: cd packages/create-exird && pnpm publish --access public
+        run: cd packages/create-exird && pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Publish exird
-        run: cd packages/exird && pnpm publish --access public
+        run: cd packages/exird && pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
