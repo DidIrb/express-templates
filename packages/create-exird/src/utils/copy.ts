@@ -32,11 +32,11 @@ function handleCopyError(error: any) {
 }
 
 function printCompletionMessage(destination: string) {
-  console.log(`\nScaffolding project in ${destination}...`);
-  console.log('Done. Now run:\n');
+   console.log(`\nScaffolding project in ${destination}...`);
+   console.log(chalk.green('Done. Now run:\n'));
   if (destination !== process.cwd()) {
-    console.log(`   cd ${path.basename(destination)}`);
+    console.log(`     cd ${path.basename(destination)}`);
   }
-  console.log('   npm install');
-  console.log('   npm run dev');
+  console.log('     1. Run `npm install` to install dependencies.');
+  console.log('     2. Run `npm run build` to build the project.');
 }

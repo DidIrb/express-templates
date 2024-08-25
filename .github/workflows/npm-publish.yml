@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -24,8 +24,25 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build packages
-        run: pnpm run build
+      - name: Build create-exird
+        run: cd packages/create-exird && pnpm run build
+
+      - name: Build exird
+        run: cd packages/exird && pnpm run build
+
+      - name: Update version of create-exird in exird
+        run: |
+          # Extract the version of create-exird
+          CREATE_EXIRD_VERSION=$(jq -r '.version' packages/create-exird/package.json)
+          
+          # Update the version of create-exird in exird's package.json
+          jq --arg version "$CREATE_EXIRD_VERSION" \
+            '.dependencies["create-exird"] = $version' \
+            packages/exird/package.json > tmp.$$.json
+          
+          # Replace the original package.json with the updated one
+          mv tmp.$$.json packages/exird/package.json
+        shell: bash
 
       - name: Publish create-exird
         run: cd packages/create-exird && pnpm publish --access public

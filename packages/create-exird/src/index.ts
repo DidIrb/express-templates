@@ -3,10 +3,17 @@
 import { init } from './utils/init.js';
 import chalk from 'chalk';
 
+let isInitialized = false;
+
+async function initialize() {
+    if (isInitialized) return;
+    isInitialized = true;
+    await init();
+}
+
 (async () => {
     try {
-        console.log(process.argv.length)
-        await init();
+        await initialize();
     } catch (error) {
         if (error instanceof Error) {
             console.error(chalk.red('✖'), 'An error occurred:', error.message);
@@ -15,3 +22,5 @@ import chalk from 'chalk';
         }
     }
 })();
+
+export { initialize as init };

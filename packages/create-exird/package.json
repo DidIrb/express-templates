@@ -12,7 +12,11 @@
   "bin": {
     "create-exird": "dist/index.js"
   },
-  "keywords": ["express", "exird", "exirdjs"],
+  "keywords": [
+    "express",
+    "exird",
+    "exirdjs"
+  ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"

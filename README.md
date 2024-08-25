@@ -1,7 +1,16 @@
-## EXIRDJS
+# Exirdjs Monorepo
 
-This is a I am not sure for now, but it is based on shadcn ui, for backend applications
+This monorepo contains multiple packages for the exirdjs project. Below are brief descriptions of the main packages:
 
-I want to build a collection of code snippets that will help users set up their express server easily and quickly
-Providing an easy and seamless way to build express applications
-This is the beginning.
+## Packages
+
+### create-exird
+
+`create-exird` is a scaffolding tool used to generate an Express application with predefined templates and configurations.
+
+### exird
+
+`exird` is a CLI tool for the exirdjs project. It leverages the `create-exird` package to scaffold applications using the `exird-init` command.
+
+## License
+This project is licensed under the MIT License.
