@@ -1,11 +1,12 @@
 {
   "name": "create-exird",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This is a scaffolding for express applications",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc --outDir dist && node dist/build.js",
+    "build": "tsc --outDir dist",
+    "commit": "pnpm -w run commit",
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
@@ -34,7 +35,7 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
-    "enquirer": "^2.4.1",
-    "fs-extra": "^11.2.0"
+    "commander": "^12.1.0",
+    "exird-addons": "workspace:*"
   }
 }

@@ -1,7 +1,6 @@
 # Ignore source files except for type definitions
 src/
 !index.d.ts
-*.ts
 
 # Ignore test files
 test/
@@ -15,3 +14,10 @@ node_modules/
 
 # Ignore other unnecessary files
 .DS_Store
+
+# Ignore typescript dev files
+.tsconfig.json
+.eslint.config.mjs
+
+# Ignore Build script
+build.js

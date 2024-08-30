@@ -1,7 +1,7 @@
 {
   "name": "exird",
-  "version": "0.1.0",
-  "description": "CLI tool for exirdjs",
+  "version": "0.1.1",
+  "description": "The exird CLI is a tool for creating and managing Express applications, making development faster and easier",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
@@ -10,22 +10,17 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
+    "commit": "pnpm -w run commit",
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
-  "keywords": [
-    "express",
-    "exird",
-    "exirdjs"
-  ],
+  "keywords": [ "express", "exird", "exirdjs" ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
-    "@types/listr": "^0.14.9",
     "@types/node": "^22.5.0",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
@@ -35,10 +30,7 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
-    "create-exird": "workspace:*",
     "commander": "^12.1.0",
-    "enquirer": "^2.4.1",
-    "exird": "file:",
-    "fs-extra": "^11.2.0"
+    "exird-addons": "workspace:*"
   }
 }

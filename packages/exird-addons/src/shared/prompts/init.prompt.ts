@@ -1,5 +1,5 @@
 import enquirer from 'enquirer';
-import { InitPromptResponse } from '../types/prompts';
+import { InitPromptResponse } from '../../types/prompts.js';
 
 export async function initPrompt(): Promise<InitPromptResponse> {
   return enquirer.prompt<InitPromptResponse>([

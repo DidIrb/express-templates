@@ -9,8 +9,6 @@
 ## Installation
 You can use `npm create` to scaffold a new application:
 
-
-
 ## Usage
 Run the following command to scaffold a new Express application:
 
