@@ -4,14 +4,30 @@ This is a tool that will allow backend developers using express to build applica
 
 This file contains things the user is required to do in this project.
 
+### Upcoming
+
+- [ ] Set up add-ons package
+- [ ] Update exird package to show metadata
+- [ ] Enable create-exird package to allow for additional flags like 
+    - [ ] --typescript
+    - [ ] --javascript
+    - [ ] --version, -v -V
+    - [ ] --help , -h, -H
+    - **Expected Behavior** npm create exird@latest project-name --typescript
+- [x] Set up docs for project.
+- [ ] Update cli to check if empty then run scaffolding
+- [ ] Allow user to build on top of the existing code
+- [ ] Enable user to set up db connection
+- [ ] Transfer todo's to github projects for more efficient handling
+
 ### Initialization
 - [x] Initialize a basic cli tool.
-- [ ] Initialize scaffolding package
+- [x] Initialize scaffolding package
 - [x] Set up base express javascript template.
 - [x] Set up base express typescript template.
-- [ ] Prepare package for deployment through github actions.
-- [ ] Initialize documentation for exirdjs
-- [ ] Initialize website for exirdjs
+- [x] Prepare package for deployment through github actions.
+- [x] Initialize documentation for exirdjs
+- [x] Initialize website for exirdjs
  
 ## Templates
 - [ ] Configure project to allow it to change port number if it is not available.
@@ -29,17 +45,17 @@ This file contains things the user is required to do in this project.
 
 ### Guide
 - [ ] Guide the users in how to use the cli tool.
-- [ ] Set it up in such a way that users can run npm create exird.
+- [x] Set it up in such a way that users can run npm create exird | **partially done**
 - [ ] Improve the prompt for users to use the package to install it globally or in the specific project.
 
 ## Documentation
-- [ ] Start the documentation of the cli tool.
-- [ ] Create and update readme-fil
+- [x] Start the documentation of the cli tool.
+- [x] Create and update readme-file
 - [ ] Create and update contributions file
 - [ ] Update license
 - [ ] Write a getting started guide for the tool
 - [ ] Document Milestones you want to achieve with this project
 
 ### Deployment
-- [ ] Deploy the package to npm.
+- [x] Deploy the package to npm.
 - [ ] Update the project to navigate to the appropriate file locations.

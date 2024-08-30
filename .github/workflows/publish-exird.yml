@@ -1,9 +1,12 @@
-name: Publish Packages
+name: Publish exird
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'packages/exird/**'
+      - 'packages/create-exird/**'
 
 jobs:
   publish:
@@ -32,15 +35,10 @@ jobs:
 
       - name: Update version of create-exird in exird
         run: |
-          # Extract the version of create-exird
           CREATE_EXIRD_VERSION=$(jq -r '.version' packages/create-exird/package.json)
-          
-          # Update the version of create-exird in exird's package.json
           jq --arg version "$CREATE_EXIRD_VERSION" \
             '.dependencies["create-exird"] = $version' \
             packages/exird/package.json > tmp.$$.json
-          
-          # Replace the original package.json with the updated one
           mv tmp.$$.json packages/exird/package.json
         shell: bash
 
@@ -48,11 +46,6 @@ jobs:
         run: |
           echo "registry=https://registry.npmjs.org/" > ~/.npmrc
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" >> ~/.npmrc
-
-      - name: Publish create-exird
-        run: cd packages/create-exird && pnpm publish --access public --no-git-checks
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Publish exird
         run: cd packages/exird && pnpm publish --access public --no-git-checks
