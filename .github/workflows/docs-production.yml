@@ -29,6 +29,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
+          cd documentation
           vercel pull --yes --token $VERCEL_TOKEN
           ls -la .vercel
 
@@ -41,7 +42,7 @@ jobs:
         run: |
           cd documentation
           pnpm run build
-          vercel build
+          vercel build --token $VERCEL_TOKEN
 
       - name: Deploy to Vercel
         id: deploy
@@ -50,6 +51,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
+          cd documentation
           DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --yes)
           echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> $GITHUB_ENV
 
