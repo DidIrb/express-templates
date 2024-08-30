@@ -1,4 +1,4 @@
-name: Vercel Production Deployment
+name: Vercel Preview Deployment
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -6,11 +6,13 @@ env:
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
+    paths:
+      - 'documentation/**'
 
 jobs:
-  Deploy-Production:
+  Deploy-Preview:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +36,7 @@ jobs:
         run: |
           cd documentation
           pnpm run build
+          vercel build
 
       - name: Deploy to Vercel
         id: deploy
@@ -42,9 +45,9 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --confirm --yes)
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=$VERCEL_TOKEN --yes)
           echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> $GITHUB_ENV
 
       - name: Output Deployment URL
         run: |
-          echo "Production Deployment URL: ${{ env.DEPLOYMENT_URL }}"
+          echo "Preview Deployment URL: ${{ env.DEPLOYMENT_URL }}"
