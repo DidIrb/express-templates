@@ -8,8 +8,8 @@ on:
     push:
         branches:
             - main
-        paths:
-            - 'documentation/**'
+        # paths:
+        #     - 'documentation/**'
 
 jobs:
     Test:
