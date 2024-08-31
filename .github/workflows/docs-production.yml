@@ -1,60 +1,50 @@
 name: Vercel Production Deployment
 
 env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+        paths:
+            - 'documentation/**'
 
 jobs:
-  Deploy-Production:
-    runs-on: ubuntu-latest
+    Test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                node-version: 18
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+            - run: pnpm install
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+            - run: pnpm run test:prod
 
-      - name: Pull Vercel Project Settings
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          cd documentation
-          vercel pull --yes --token $VERCEL_TOKEN
-          ls -la .vercel
+    Deploy-Production:
+        needs: [Test]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          cd documentation
-          pnpm install
+            - uses: actions/setup-node@v3
+              with:
+                node-version: 18
 
-      - name: Build project
-        run: |
-          cd documentation
-          pnpm run build
-          vercel build --token $VERCEL_TOKEN
+            - run: pnpm install
 
-      - name: Deploy to Vercel
-        id: deploy
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          cd documentation
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --yes)
-          echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> $GITHUB_ENV
+            - name: Install Vercel CLI
+              run: pnpm add -g vercel
 
-      - name: Output Deployment URL
-        run: |
-          echo "Production Deployment URL: ${{ env.DEPLOYMENT_URL }}"
+            - name: Pull Vercel Environment Information
+              run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Build Project Artifacts
+              run: pnpm run build
+
+            - name: Deploy Project Artifacts
+              run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

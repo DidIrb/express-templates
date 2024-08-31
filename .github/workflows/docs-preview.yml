@@ -1,62 +1,42 @@
 name: Vercel Preview Deployment
 
 env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
-  push:
-    branches-ignore:
-      - main
-    paths:
-      - 'documentation/**'
+    push:
+        paths:
+            - 'documentation/**'
 
 jobs:
-  Deploy-Preview:
-    runs-on: ubuntu-latest
+    Test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                node-version: 18
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+            - run: pnpm install
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+            - run: pnpm run test:prod
 
-      - name: Pull Vercel Project Settings
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          cd documentation
-          vercel pull --yes --token $VERCEL_TOKEN
-          ls -la .vercel
+    Deploy-Preview:
+        needs: [Test]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          cd documentation
-          pnpm install
+            - name: Install Vercel CLI
+              run: pnpm add -g vercel
 
-      - name: Build project
-        run: |
-          cd documentation
-          pnpm run build
-          vercel build --token $VERCEL_TOKEN
+            - name: Pull Vercel Environment Information
+              run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Deploy to Vercel
-        id: deploy
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          cd documentation
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=$VERCEL_TOKEN --yes)
-          echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> $GITHUB_ENV
+            - name: Build Project Artifacts
+              run: pnpm run build
 
-      - name: Output Deployment URL
-        run: |
-          echo "Preview Deployment URL: ${{ env.DEPLOYMENT_URL }}"
+            - name: Deploy Project Artifacts
+              run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
