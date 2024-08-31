@@ -1,42 +1,72 @@
 name: Vercel Preview Deployment
 
 env:
-    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
-    push:
-        paths:
-            - 'documentation/**'
+  push:
+    branches:
+      - main
+    # branches-ignore: # will ignore it when it is functional
+    #   - main
+    # paths:
+    #   - "documentation/**"
 
 jobs:
-    Test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-            - uses: actions/setup-node@v3
-              with:
-                node-version: 18
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-            - run: pnpm install
+      - name: Install pnpm
+        run: npm install -g pnpm
 
-            - run: pnpm run test:prod
+      - name: Cache pnpm Store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('documentation/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-    Deploy-Preview:
-        needs: [Test]
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
+      - run: cd documentation && pnpm install --no-frozen-lockfile
 
-            - name: Install Vercel CLI
-              run: pnpm add -g vercel
+      - run: cd documentation && pnpm run test:prod
 
-            - name: Pull Vercel Environment Information
-              run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+  Deploy-Preview:
+    needs: [Test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-            - name: Build Project Artifacts
-              run: pnpm run build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-            - name: Deploy Project Artifacts
-              run: vercel deploy --prebuilt --yes --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Cache pnpm Store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('documentation/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - run: cd documentation && pnpm install --no-frozen-lockfile
+
+      - name: Build Project Artifacts
+        run: cd documentation && pnpm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: "--target=preview"
+          working-directory: documentation
