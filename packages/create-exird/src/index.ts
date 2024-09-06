@@ -2,6 +2,9 @@
 
 import { init } from './utils/init.js';
 import chalk from 'chalk';
+import { Command } from 'commander';
+
+const program = new Command();
 
 let isInitialized = false;
 
@@ -10,6 +13,11 @@ async function initialize() {
     isInitialized = true;
     await init();
 }
+
+program
+  .name('exird')
+  .description('CLI tool for scaffolding and building Express applications')
+  .version('0.1.0');
 
 (async () => {
     try {

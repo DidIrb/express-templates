@@ -1,6 +1,6 @@
 {
   "name": "exird",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI tool for exirdjs",
   "main": "dist/index.js",
   "type": "module",
@@ -38,7 +38,6 @@
     "create-exird": "workspace:*",
     "commander": "^12.1.0",
     "enquirer": "^2.4.1",
-    "exird": "file:",
     "fs-extra": "^11.2.0"
   }
 }

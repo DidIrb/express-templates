@@ -6,12 +6,12 @@ env:
 
 on:
   push:
-    branches:
-      - main
-    # branches-ignore: # will ignore it when it is functional
+    branches-ignore: # will ignore it when it is functional
+    - main
+    # branches: # incase of testing
     #   - main
-    # paths:
-    #   - "documentation/**"
+    paths:
+      - "documentation/**"
 
 jobs:
   Test:

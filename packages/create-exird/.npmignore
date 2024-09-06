@@ -1,7 +1,6 @@
 # Ignore source files except for type definitions
 src/
 !index.d.ts
-*.ts
 
 # Ignore test files
 test/
