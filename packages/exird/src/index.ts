@@ -17,7 +17,7 @@ async function initialize() {
 program
   .name('exird')
   .description('CLI tool for scaffolding and building Express applications')
-  .version('0.1.0');
+  .version('0.1.1');
 
 program
   .command('init')
@@ -37,7 +37,12 @@ program
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
-  console.log(chalk.blue('For more information, visit: https://your-website.com'));
+  program.outputHelp();
+} else {
+  const command = program.args[0];
+  if (typeof command === 'string' && command !== 'init') {
+    console.log(chalk.blue('For more information, visit: https://exirdjs.com'));
+  }
 }
 
 export { initialize as init };

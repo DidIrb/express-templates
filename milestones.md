@@ -3,8 +3,9 @@
 - [x] Initialize CLI tool.
 - [x] Create 2 base templates.
 - [x] CLI tool successful scaffold of base templates.
-- [ ] Deploy cli tool to npm.
-- [ ] Deploy scaffolding tool
+- [x] Deploy cli tool to npm.
+- [x] Deploy scaffolding tool
+- [ ] Set up add ons package
 
 ### Extensions
 
