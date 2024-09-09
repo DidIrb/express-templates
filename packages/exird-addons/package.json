@@ -1,0 +1,41 @@
+{
+  "name": "exird-addons",
+  "version": "0.1.0",
+  "description": "A shared utility package for the exirdjs project, providing common functions used by the exird CLI tool and the create-exird scaffolding tool to streamline Express application development. ",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "build": "tsc --outDir dist  && node dist/build-types.js",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
+  },
+  "types": "dist/index.d.ts",
+  "bin": {
+    "exird-addons": "dist/index.js"
+  },
+  "keywords": [
+    "exirdjs",
+    "express",
+    "addons"
+  ],
+  "author": {
+    "name": "irbaye",
+    "url": "https://github.com/didirb"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/listr": "^0.14.9",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0"
+  }
+}

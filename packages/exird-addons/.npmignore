@@ -1,0 +1,17 @@
+# Ignore source files except for type definitions
+src/
+!index.d.ts
+*.ts
+
+# Ignore test files
+test/
+coverage/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore build artifacts
+*.map
+
+# Ignore other unnecessary files
+.DS_Store
