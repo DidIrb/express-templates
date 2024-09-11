@@ -6,6 +6,7 @@
 - [x] Deploy cli tool to npm.
 - [x] Deploy scaffolding tool
 - [ ] Set up add ons package
+- [ ] transfer of shared utility functions to **exird-addons** package
 
 ### Extensions
 

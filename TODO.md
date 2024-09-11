@@ -6,13 +6,16 @@ This file contains things the user is required to do in this project.
 
 ### Upcoming
 
-- [ ] Set up add-ons package
+- [ ] Set up Testing before build.
+- [ ] Set up version control for the packages.
+- [ ] Update github actions for exird to update version of exird-addons
+- [x] Set up add-ons package
 - [x] Update exird package to show metadata
 - [x] Enable create-exird package to allow for additional flags like 
     - [x] --typescript.
     - [x] --javascript.
-    - [x] --version,-V.
-    - [x] --help , -h.
+    - [x] --version,-V, --v, -v.
+    - [x] --help , -h, --h, -h.
     - **Expected Behavior** npm create exird@latest project-name --typescript
 - [x] Set up docs for project.
 - [x] Update cli to check if empty then run scaffolding
@@ -20,6 +23,7 @@ This file contains things the user is required to do in this project.
 - [ ] Enable user to set up db connection
 - [ ] Transfer todo's to github projects for more efficient handling
 - [ ] Create landing page for exirdjs in documentation/ exirdjs site.
+- [ ] Check for packages that are not being used inside the packages
 
 ### Initialization
 - [x] Initialize a basic cli tool.

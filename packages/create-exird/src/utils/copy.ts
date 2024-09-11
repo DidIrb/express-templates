@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { ignoreFiles } from '../config/ignore.js';
 import chalk from 'chalk';
 import boxen, { Options } from 'boxen';
+import { ignoreFiles } from '../config/ignore.js';
 
 // Resolve __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
