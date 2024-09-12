@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
-import { Command } from 'commander';
+import { program } from 'commander';
 import { checkPath, copyTemplate, init } from "exird-addons";
+import { readFileSync } from 'fs';
 import path from 'path';
-
-const program = new Command();
+const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf-8'));
 
 program
-    .name('exird')
-    .description('CLI tool for scaffolding and building Express applications')
-    .version('0.1.0')
+    .name(packageJson.name)
+    .description(packageJson.description)
+    .version(packageJson.version, '-v, --version', 'output the current version')
+    .helpOption('-h, --help', 'display help for command')
     .arguments('[project-name]')
     .option('-t, --typescript', 'Use TypeScript template')
     .option('-j, --javascript', 'Use JavaScript template');
@@ -23,7 +24,6 @@ const projectName = program.args[0];
     if (!projectName && !options.typescript && !options.javascript) {
         await init();
     } else {
-        // Arguments
         const template = options.typescript ? 'typescript' : options.javascript ? 'javascript' : null;
         if (!template) {
             console.log(chalk.yellow('No template specified. Use --typescript or --javascript.'));

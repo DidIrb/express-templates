@@ -7,6 +7,8 @@ import { readFileSync } from 'fs';
 const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf-8'));
 
 program
+    .name(packageJson.name)
+    .description(packageJson.description)
     .version(packageJson.version, '-v, --version', 'output the current version')
     .helpOption('-h, --help', 'display help for command');
 
