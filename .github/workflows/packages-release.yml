@@ -49,6 +49,7 @@ jobs:
           branch: main
 
       - name: Set release status
+
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
