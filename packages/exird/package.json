@@ -1,6 +1,6 @@
 {
   "name": "exird",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "The exird CLI is a tool for creating and managing Express applications, making development faster and easier",
   "main": "dist/index.js",
   "type": "module",
@@ -14,7 +14,11 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
-  "keywords": [ "express", "exird", "exirdjs" ],
+  "keywords": [
+    "express",
+    "exird",
+    "exirdjs"
+  ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
