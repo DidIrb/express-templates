@@ -1,11 +1,11 @@
-name: Publish
+name: Release
 
 on:
   push:
     branches:
-      - "main"
-    paths:
-      - '.changeset/**'  # Trigger only when changes are made in the .changeset directory
+      - "**"
+    # paths:
+    #   - '.changeset/**'  # Trigger only when changes are made in the .changeset directory
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -20,14 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
           cache: "pnpm"
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v3
 
       - name: Cache PNPM dependencies
         uses: actions/cache@v3
