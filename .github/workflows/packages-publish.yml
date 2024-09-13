@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "main"
-    # paths:
+      # paths:
     #   - ".changeset/**"
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
@@ -66,5 +66,3 @@ jobs:
             ${{ steps.changesets.outputs.changelog }}
           draft: false
           prerelease: false
-          outputs:
-            release_id: ${{ steps.create_release.outputs.id }}
