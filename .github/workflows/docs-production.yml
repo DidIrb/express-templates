@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - "documentation/**"
+      - "app/docs/**"
     
 jobs:
   Test:
@@ -28,13 +28,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('documentation/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('apps/docs/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - run: cd documentation && pnpm install --no-frozen-lockfile
+      - run: cd apps/docs && pnpm install --no-frozen-lockfile
 
-      - run: cd documentation && pnpm run test:prod
+      - run: cd apps/docs && pnpm run test:prod
 
   Deploy-Production:
     needs: [Test]
@@ -53,18 +53,18 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('documentation/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('apps/docs/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - run: cd documentation && pnpm install --no-frozen-lockfile
+      - run: cd apps/docs && pnpm install --no-frozen-lockfile
 
       - name: Build Project Artifacts
-        run: cd documentation && pnpm run build
+        run: cd apps/docs && pnpm run build
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: "--prod"
-          working-directory: documentation
+          working-directory: apps/docs
