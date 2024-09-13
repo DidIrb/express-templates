@@ -17,8 +17,8 @@ node_modules/
 .DS_Store
 
 # Ignore typescript dev files
-.tsconfig.json
-.eslint.config.mjs
+tsconfig.json
+eslint.config.mjs
 
 # Ignore Build script
 build.js
