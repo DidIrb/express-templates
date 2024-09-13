@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - "documentation/**"
+      - "app/docs/**"
     
 jobs:
   Test:

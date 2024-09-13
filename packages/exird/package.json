@@ -14,11 +14,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
-  "keywords": [
-    "express",
-    "exird",
-    "exirdjs"
-  ],
+  "keywords": [ "express", "exird", "exirdjs" ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
