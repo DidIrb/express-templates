@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: false
-          branch: changeset-release-main
+          branch: changeset-release/dev
 
       - name: Set release status
         run: gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
