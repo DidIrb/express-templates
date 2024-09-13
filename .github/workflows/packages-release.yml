@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - "main"
-    paths:
-      - '.changeset/**'
+    # paths:
+    #   - '.changeset/**'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -50,5 +50,5 @@ jobs:
 
       - name: Set release status
         run: gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          -f state=success \
-          -f context="release"
+          --field state=success \
+          --field context="release"
