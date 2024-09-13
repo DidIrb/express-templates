@@ -1,5 +1,14 @@
 # exird-addons
 
+## 0.1.1
+
+### Patch Changes
+
+- [#3](https://github.com/DidIrb/exirdjs/pull/3) [`80a74b0`](https://github.com/DidIrb/exirdjs/commit/80a74b05b61318eca34ec2335efb77d1460cb5a2) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing building action for packages, so as to add dist folder in packages
+  This is the Features set up, exird-addons contains utility functions that will be used by the exird-cli
+
+  Currently attempting patch of the issue of there not being a **dist** folder in packages.
+
 ## 0.1.0
 
 ### Minor Changes
