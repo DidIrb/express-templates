@@ -1,4 +1,4 @@
-name: Create Release Pull Request
+name: Create Release
 
 on:
   push:
@@ -6,11 +6,12 @@ on:
       - "main"
     paths:
       - '.changeset/**'
-      
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
-  changeset:
+  release:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -35,8 +36,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Extract version number
+        id: get_version
+        run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: false
           branch: changeset-release/main
+
+      - name: Set release status
+        run: gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          -f state=success \
+          -f context="release"
