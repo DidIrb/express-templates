@@ -1,5 +1,14 @@
 # create-exird
 
+## 0.2.4
+
+### Patch Changes
+
+- pre release update on package versions with minor bump in versions with proper build and publish
+
+- Updated dependencies []:
+  - exird-addons@0.1.3
+
 ## 0.2.3
 
 ### Patch Changes

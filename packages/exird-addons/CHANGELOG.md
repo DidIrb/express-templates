@@ -1,5 +1,11 @@
 # exird-addons
 
+## 0.1.3
+
+### Patch Changes
+
+- pre release update on package versions with minor bump in versions with proper build and publish
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,16 +1,10 @@
 name: Publish Packages and Create Release
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
-    paths:
-      - 'packages/**'
+  workflow_dispatch:
 
 jobs:
   publish:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'Release PR:')
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

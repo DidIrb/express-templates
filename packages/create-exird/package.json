@@ -1,6 +1,6 @@
 {
   "name": "create-exird",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "This is a scaffolding for express applications",
   "main": "dist/index.js",
   "type": "module",
