@@ -1,16 +1,15 @@
-name: Create Release Pull Request
+name: Create Release
 
 on:
   push:
-    branches:
-      - "main"
+    branches-ignore:
+      - main
     paths:
-      - '.changeset/**'
-      
+      - ".changeset/**"
+
 jobs:
-  changeset:
+  release:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -35,8 +34,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Extract version number
+        id: get_version
+        run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
+
       - name: Create Release Pull Request
-        uses: changesets/action@v1
+        uses: changesets/action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: false
-          branch: changeset-release/main
+          branch: main
+          commit: "chore(release): update versions to ${{ env.VERSION }} [skip ci]"
