@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'Release PR:')
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Generate changelog
         id: changesets
-        uses: changesets/action@v2
+        uses: changesets/action@v1
         with:
           publish: false
 
