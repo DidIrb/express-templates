@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "type": "module",
   "private": true,
   "scripts": {
     "start": "node dist/index.js",
@@ -11,9 +12,9 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
-  "keywords": [],
+  "keywords": ["express", "template", "typescript", "backend"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/express": "^4.17.21",
