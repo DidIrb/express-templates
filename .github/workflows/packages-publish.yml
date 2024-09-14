@@ -43,7 +43,7 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
 
       - name: Build packages
-        run: pnpm -r --filter ./packages/** run build
+        run: pnpm -r run build
 
       - name: Publish Packages
         run: pnpm changeset publish
