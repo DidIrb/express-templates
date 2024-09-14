@@ -1,17 +1,18 @@
 name: Publish Packages and Create Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - main
+      - "main"
     paths:
-      - 'packages/**'
+      - '.changeset/**'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   publish:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    timeout-minutes: 10  
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -50,11 +51,9 @@ jobs:
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: exirdjs@v${{ env.VERSION }}
+          release_name: Release ${{ github.ref_name }}
           body: |
             Changes in this release:
             ${{ steps.changesets.outputs.changelog }}

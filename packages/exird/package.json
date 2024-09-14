@@ -11,6 +11,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "commit": "pnpm -w run commit",
+    "commit": "pnpm -w run commit",
     "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
@@ -35,6 +36,7 @@
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
+    "exird-addons": "workspace:*"
     "exird-addons": "workspace:*"
   }
 }
