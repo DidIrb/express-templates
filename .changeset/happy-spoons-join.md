@@ -4,4 +4,4 @@
 "exird": patch
 ---
 
-Fixing Package Deployment issue, with dist folder included and other files excluded
+Fixing Package Deployment issue, with dist folder included and other files excluded.
