@@ -1,27 +1,21 @@
 name: Publish Packages and Create Release
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - "main"
+      - main
     paths:
-      - '.changeset/**'
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+      - 'packages/**'
 
 jobs:
   publish:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     steps:
-      - name: Wait for release status
-        uses: autotelic/action-wait-for-status-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          statusName: "release"
-
       - name: Checkout repository
         uses: actions/checkout@v3
 

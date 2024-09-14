@@ -2,12 +2,10 @@ name: Create Release
 
 on:
   push:
-    branches:
-      - "main"
+    branches-ignore:
+      - main
     paths:
       - '.changeset/**'
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
@@ -41,14 +39,10 @@ jobs:
         run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
 
       - name: Create Release Pull Request
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: false
-          branch: changeset-release-main
-
-      - name: Set release status
-        run: gh api -X POST /repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          -f state=success \
-          -f context="release"
+          branch: main
+          commit: "chore(release): exirdjs update versions to ${{ env.VERSION }} [skip ci]"
