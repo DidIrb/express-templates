@@ -1,5 +1,11 @@
 # exird-addons
 
+## 0.1.1
+
+### Patch Changes
+
+- [`c52cef9`](https://github.com/DidIrb/exirdjs/commit/c52cef91ebc232934e01de34e327a50ebb3e4ae4) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing Package Deployment issue, with dist folder included and other files excluded.
+
 ## 0.1.0
 
 ### Minor Changes
