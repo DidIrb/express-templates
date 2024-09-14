@@ -4,9 +4,11 @@
 
 ### Patch Changes
 
-- [`c52cef9`](https://github.com/DidIrb/exirdjs/commit/c52cef91ebc232934e01de34e327a50ebb3e4ae4) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing Package Deployment issue, with dist folder included and other files excluded.
+- [#14](https://github.com/DidIrb/exirdjs/pull/14) [`c52cef9`](https://github.com/DidIrb/exirdjs/commit/c52cef91ebc232934e01de34e327a50ebb3e4ae4) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing Package Deployment issue, with dist folder included and other files excluded.
 
-- Updated dependencies [[`c52cef9`](https://github.com/DidIrb/exirdjs/commit/c52cef91ebc232934e01de34e327a50ebb3e4ae4)]:
+- [`fc594e5`](https://github.com/DidIrb/exirdjs/commit/fc594e555e222c34064fdbbe1e0aa43d65ac002d) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing build failure for packages
+
+- Updated dependencies [[`c52cef9`](https://github.com/DidIrb/exirdjs/commit/c52cef91ebc232934e01de34e327a50ebb3e4ae4), [`fc594e5`](https://github.com/DidIrb/exirdjs/commit/fc594e555e222c34064fdbbe1e0aa43d65ac002d)]:
   - exird-addons@0.1.1
 
 ## 0.2.1
