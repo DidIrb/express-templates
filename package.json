@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "release": "pnpm changeset",
-    "commit": "git cz"
+    "commit": "git cz",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "config": {
     "commitizen": {

@@ -1,15 +1,9 @@
 name: Publish Packages and Create Release
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.changeset/**'
+on: workflow_dispatch
 
 jobs:
   publish:
-    # if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,47 +32,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Generate changelog
-        id: changesets
+      - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
-          publish: false
-
-      - name: Configure npm authentication
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
-
-      - name: Build packages
-        run: pnpm -r run build
-
-      - name: Run version bump
-        run: pnpm changeset version
-
-      - name: Extract version number
-        id: get_version
-        run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
-
-      - name: Publish Packages
-        run: pnpm changeset publish
-
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
+          publish: pnpm release
+          version: pnpm version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: exirdjs@v${{ env.VERSION }}
-          body: |
-            Changes in this release:
-            ${{ steps.changesets.outputs.changelog }}
-          draft: false
-          prerelease: false
-
-      - name: Commit Release and changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "chore(release): update versions to ${{ env.VERSION }} [skip ci]"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
