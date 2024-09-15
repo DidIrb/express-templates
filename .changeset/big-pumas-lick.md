@@ -4,4 +4,4 @@
 "exird-addons": patch
 ---
 
-Fixing github release tag issue
+Fixing github release tag issue, and github action issue as well.

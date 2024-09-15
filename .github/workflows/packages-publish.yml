@@ -1,10 +1,15 @@
 name: Publish Packages and Create Release
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.changeset/**'
 
 jobs:
   publish:
+    # if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,6 +38,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate changelog
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: false
+
       - name: Configure npm authentication
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
 
@@ -41,22 +52,6 @@ jobs:
 
       - name: Run version bump
         run: pnpm changeset version
-
-      - name: Create Release Pull Request
-        uses: changesets/action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish: false
-          branch: main
-          commit: "chore(release): update versions to ${{ env.VERSION }} [skip ci]"
-          title: "Release PR: exirdjs@v${{ env.VERSION }}"
-
-      - name: Generate changelog
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: false
 
       - name: Extract version number
         id: get_version
@@ -77,3 +72,13 @@ jobs:
             ${{ steps.changesets.outputs.changelog }}
           draft: false
           prerelease: false
+
+      - name: Commit Release and changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore(release): update versions to ${{ env.VERSION }} [skip ci]"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
