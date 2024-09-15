@@ -1,5 +1,13 @@
 # exird-addons
 
+## 0.1.4
+
+### Patch Changes
+
+- [`b7edadc`](https://github.com/DidIrb/exirdjs/commit/b7edadcc5513742ca26742a75dd49e4357cda4b0) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing github release tag issue, and github action issue as well.
+
+- [`c30e7e7`](https://github.com/DidIrb/exirdjs/commit/c30e7e7b2f9e94052aa91478ef0fd442d661ebf1) Thanks [@DidIrb](https://github.com/DidIrb)! - updated and removed issue caused by merge conflicts before
+
 ## 0.1.3
 
 ### Patch Changes
