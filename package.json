@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "release": "pnpm changeset && pnpm changeset version",
+    "release": "pnpm changeset",
     "commit": "git cz"
   },
   "config": {
