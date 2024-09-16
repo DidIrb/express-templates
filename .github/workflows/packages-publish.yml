@@ -47,16 +47,24 @@ jobs:
         with:
           commit: "chore: release packages v${{ env.VERSION }}"
           publish: false
-          
+
+      - name: Capture Changelog
+        id: capture_changelog
+        run: |
+            CHANGELOG_CONTENT=$(cat .changeset/CHANGELOG.md)
+            echo "CHANGELOG_CONTENT<<EOF" >> $GITHUB_ENV
+            echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+  
       # - name: Save Changelog to Environment Variable
       #   run: echo "CHANGELOG=${{ steps.changesets.outputs.changelog }}" >> $GITHUB_ENV
 
       - name: Run version bump
         run: pnpm changeset version
 
-      - name: Debug Changesets | General Outputs
-        run: |
-          echo "Changelog: ${{ steps.changesets.outputs }}"
+      # - name: Debug Changesets | General Outputs
+      #   run: |
+      #     echo "Changelog: ${{ steps.changesets }}"
 
       - name: Extract version number
         id: get_version
