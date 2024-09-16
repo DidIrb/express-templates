@@ -49,10 +49,10 @@ jobs:
           publish: false
 
       - name: Push tags
-        run: git push --follow-tags
+        run: git push --set-upstream origin changeset-release/dev --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  
       - name: Extract version number
         id: get_version
         run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
