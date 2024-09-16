@@ -41,50 +41,31 @@ jobs:
       - name: Build packages
         run: pnpm -r run build
 
-      - name: Generate changelog
+      - name: Generate changelog and version packages
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "chore: release packages v${{ env.VERSION }}"
+          commit: "chore: release packages"
           publish: false
 
-      - name: Capture Changelog
-        id: capture_changelog
-        run: |
-            CHANGELOG_CONTENT=$(cat .changeset/CHANGELOG.md)
-            echo "CHANGELOG_CONTENT<<EOF" >> $GITHUB_ENV
-            echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
-  
-      # - name: Save Changelog to Environment Variable
-      #   run: echo "CHANGELOG=${{ steps.changesets.outputs.changelog }}" >> $GITHUB_ENV
-
-      - name: Run version bump
-        run: pnpm changeset version
-
-      # - name: Debug Changesets | General Outputs
-      #   run: |
-      #     echo "Changelog: ${{ steps.changesets }}"
+      - name: Push tags
+        run: git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract version number
         id: get_version
         run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
-
-      - name: Debug Changesets Output
-        run: |
-          echo "Changelog: $CHANGELOG_CONTENT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "@exirdjs@v${{ env.VERSION }}"
-          release_name: exirdjs@v${{ env.VERSION }}
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "Release v${{ env.VERSION }}"
           body: |
             Changes in this release:
             ${{ steps.changesets.outputs.changelog }}
-            Content comming from the environment
-            ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
