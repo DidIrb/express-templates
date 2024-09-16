@@ -6,6 +6,10 @@
   "module": "dist/index.mts",
   "type": "module",
   "types": "dist/index.d.ts",
+  "homepage": "https://exirdjs.irbaye.com",
+  "repository": {
+    "url": "https://github.com/didirb/exirdjs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified, continue to next step\"",
     "commit": "pnpm -w run commit",
@@ -17,16 +21,12 @@
   "bin": {
     "exird-addons": "dist/index.js"
   },
-  "keywords": [
-    "exirdjs",
-    "express",
-    "addons"
-  ],
+  "keywords": [ "exirdjs", "express", "addons" ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/listr": "^0.14.9",
@@ -35,7 +35,6 @@
     "@typescript-eslint/parser": "^8.4.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
-    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {

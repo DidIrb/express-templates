@@ -1,6 +1,9 @@
 name: Publish Packages and Create Release
 
-on: workflow_dispatch
+on:
+  push:
+    branches-ignore: 
+    - main
 
 jobs:
   publish:
@@ -32,11 +35,53 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Configure npm authentication
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+
+      - name: Build packages
+        run: pnpm -r run build
+
+      - name: Generate changelog
+        id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
-          version: pnpm version-packages
+          publish: false
+      - name: Save Changelog to Environment Variable
+        run: echo "CHANGELOG=${{ steps.changesets.outputs.changelog }}" >> $GITHUB_ENV
+
+      - name: Debug Changesets Output, while testing if the changelogs disappears after version bump
+        run: |
+          echo "Changelog: ${{ steps.changesets.outputs.changelog }}"
+
+      - name: Run version bump
+        run: pnpm changeset version
+
+      - name: Debug Changesets Output, after version bump
+        run: |
+          echo "Changelog: ${{ steps.changesets.outputs.changelog }}"
+
+      - name: Extract version number
+        id: get_version
+        run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
+
+      # - name: Publish Packages # I will not publish immediately
+      #   run: pnpm changeset publish
+
+      - name: Debug Changesets Output
+        run: |
+          echo "Changelog: ${{ steps.changesets.outputs.changelog }}"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        with:
+          tag_name: "@exirdjs@v${{ env.VERSION }}"
+          release_name: exirdjs@v${{ env.VERSION }}
+          body: |
+            Changes in this release:
+            ${{ steps.changesets.outputs.changelog }}
+            Content comming from the environment
+            ${{ env.CHANGELOG }}
+          draft: false
+          prerelease: false
