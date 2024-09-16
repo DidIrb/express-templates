@@ -57,15 +57,15 @@ jobs:
         id: get_version
         run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: "v${{ env.VERSION }}"
-          release_name: "Release v${{ env.VERSION }}"
-          body: |
-            Changes in this release:
-            ${{ steps.changesets.outputs.changelog }}
-          draft: false
-          prerelease: false
+      # - name: Create GitHub Release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: "v${{ env.VERSION }}"
+      #     release_name: "Release v${{ env.VERSION }}"
+      #     body: |
+      #       Changes in this release:
+      #       ${{ steps.changesets.outputs.changelog }}
+      #     draft: false
+      #     prerelease: false
