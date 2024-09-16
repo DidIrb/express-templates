@@ -49,23 +49,35 @@ jobs:
           publish: false
 
       - name: Push tags
-        run: git push --set-upstream origin changeset-release/dev --follow-tags
+        run: git push --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
       - name: Extract version number
         id: get_version
         run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
+      
+      # - name: Publish Packages # I will not publish immediately
+      #   run: pnpm changeset publish
 
-      # - name: Create GitHub Release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: "v${{ env.VERSION }}"
-      #     release_name: "Release v${{ env.VERSION }}"
-      #     body: |
-      #       Changes in this release:
-      #       ${{ steps.changesets.outputs.changelog }}
-      #     draft: false
-      #     prerelease: false
+      - name: Get Pull Request Body
+        id: get_pr_body
+        run: |
+          PR_URL=$(gh pr list --repo ${{ github.repository }} --state open --author github-actions[bot] --json url --jq '.[0].url')
+          PR_BODY=$(gh pr view $PR_URL --json body --jq '.body')
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "$PR_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "@exirdjs/v${{ env.VERSION }}"
+          release_name: "Releases v${{ env.VERSION }}"
+          body: |
+            Changes in this release:
+            ${{ env.PR_BODY }}
+          draft: false
+          prerelease: false
