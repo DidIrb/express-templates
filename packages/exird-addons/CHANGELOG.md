@@ -1,5 +1,11 @@
 # exird-addons
 
+## 0.1.4
+
+### Patch Changes
+
+- [#21](https://github.com/DidIrb/exirdjs/pull/21) [`8ac2f6f`](https://github.com/DidIrb/exirdjs/commit/8ac2f6fddb3e745be7ede325a78dc3c661a27583) Thanks [@github-actions](https://github.com/apps/github-actions)! - Added readme file for exird-addons package, there are still some other changes but for now let us test the github actions.
+
 ## 0.1.3
 
 ### Patch Changes

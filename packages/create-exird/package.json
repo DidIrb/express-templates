@@ -1,11 +1,13 @@
 {
   "name": "create-exird",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "This is a scaffolding for express applications",
   "main": "dist/index.js",
   "type": "module",
   "homepage": "https://exirdjs.irbaye.com",
-  "repository": {"url": "https://github.com/didirb/exirdjs"},
+  "repository": {
+    "url": "https://github.com/didirb/exirdjs"
+  },
   "scripts": {
     "build": "tsc --outDir dist",
     "commit": "pnpm -w run commit",
@@ -15,7 +17,11 @@
   "bin": {
     "create-exird": "dist/index.js"
   },
-  "keywords": [ "express", "exird", "exirdjs" ],
+  "keywords": [
+    "express",
+    "exird",
+    "exirdjs"
+  ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
