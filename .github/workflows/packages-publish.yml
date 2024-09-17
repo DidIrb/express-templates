@@ -8,6 +8,9 @@ on:
 jobs:
   Release:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -72,8 +75,6 @@ jobs:
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "@exirdjs/v${{ env.VERSION }}"
           release_name: "Releases v${{ env.VERSION }}"
