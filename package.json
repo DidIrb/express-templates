@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "test": "echo \"Error: no test specified for now\"",
+    "lint": "echo \"Error: no lint specified for now\"",
     "commit": "git cz",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish"
