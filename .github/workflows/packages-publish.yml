@@ -6,20 +6,20 @@ on:
       - main
 
 jobs:
-  Setup:
+  Release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
           cache: "pnpm"
-
-      - name: Install PNPM
-        run: npm install -g pnpm
 
       - name: Cache PNPM dependencies
         uses: actions/cache@v3
@@ -32,26 +32,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-  Test:
-    runs-on: ubuntu-latest
-    needs: Setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Run tests, and Lint
+        run: pnpm run test && pnpm run lint
 
-      - name: Run tests
-        run: pnpm run test
-
-      - name: Run Lint
-        run: pnpm run lint
-
-  Release:
-    runs-on: ubuntu-latest
-    needs: Test
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-    steps:
       - name: Configure npm authentication
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
 
@@ -62,11 +45,14 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "chore: release packages"
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: pnpm changeset version
+          # publish: pnpm changeset publish
           publish: false
       
-      - name: Run version bump
-        run: pnpm changeset version
+      # - name: Run version bump
+        # run: pnpm changeset version
 
       - name: Extract version number
         id: get_version
