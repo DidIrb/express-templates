@@ -48,11 +48,11 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "chore(release): version packages"
+          commit: "chore(release): version packages [skip ci]"
           title: "chore(release): version packages"
           version: pnpm changeset version
           # publish: pnpm changeset publish
-          publish: false
+          publish: true
       
       # - name: Run version bump
         # run: pnpm changeset version
