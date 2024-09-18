@@ -1,6 +1,6 @@
 {
   "name": "exird",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "The exird CLI is a tool for creating and managing Express applications, making development faster and easier",
   "main": "dist/index.js",
   "type": "module",
@@ -8,7 +8,9 @@
     "exird": "dist/index.js"
   },
   "homepage": "https://exirdjs.irbaye.com",
-  "repository": {"url": "https://github.com/didirb/exirdjs"},
+  "repository": {
+    "url": "https://github.com/didirb/exirdjs"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
