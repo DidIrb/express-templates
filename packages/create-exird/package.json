@@ -4,6 +4,8 @@
   "description": "This is a scaffolding for express applications",
   "main": "dist/index.js",
   "type": "module",
+  "homepage": "https://exirdjs.irbaye.com",
+  "repository": {"url": "https://github.com/didirb/exirdjs"},
   "scripts": {
     "build": "tsc --outDir dist",
     "commit": "pnpm -w run commit",
@@ -13,16 +15,12 @@
   "bin": {
     "create-exird": "dist/index.js"
   },
-  "keywords": [
-    "express",
-    "exird",
-    "exirdjs"
-  ],
+  "keywords": [ "express", "exird", "exirdjs" ],
   "author": {
     "name": "irbaye",
     "url": "https://github.com/didirb"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/listr": "^0.14.9",

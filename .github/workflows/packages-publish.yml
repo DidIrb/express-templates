@@ -1,9 +1,15 @@
 name: Publish Packages and Create Release
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/**"
+      - ".changeset/**"
 
 jobs:
-  publish:
+  Release:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,11 +38,42 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Run tests, and Lint
+        run: pnpm run test && pnpm run lint
+
+      - name: Configure npm authentication
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+
+      - name: Build packages
+        run: pnpm -r run build
+
+      - name: Generate changelog and version packages
+        id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
-          version: pnpm version-packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          commit: "chore(release): version packages [skip ci]"
+          title: "chore(release): version packages [skip ci]"
+          version: pnpm changeset version
+          publish: pnpm changeset publish
+
+      - name: Extract version number
+        id: get_version
+        run: echo "VERSION=$(jq -r '.version' packages/exird/package.json)" >> $GITHUB_ENV
+
+      - name: Get Pull Request Body
+        id: get_pr_body
+        run: |
+          PR_URL=$(gh pr list --repo ${{ github.repository }} --state open --author github-actions[bot] --json url --jq '.[0].url')
+          PR_BODY=$(gh pr view $PR_URL --json body --jq '.body')
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "$PR_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "exirdjs@v${{ env.VERSION }}"
+          body: ${{ env.PR_BODY }}
+          draft: false
+          prerelease: false
