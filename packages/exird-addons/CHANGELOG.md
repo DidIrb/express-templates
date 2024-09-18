@@ -1,5 +1,11 @@
 # exird-addons
 
+## 0.1.5
+
+### Patch Changes
+
+- [#24](https://github.com/DidIrb/exirdjs/pull/24) [`74fedcb`](https://github.com/DidIrb/exirdjs/commit/74fedcb4ceb0ae201c08cc7ebe515ef38b13695c) Thanks [@DidIrb](https://github.com/DidIrb)! - Mutliple changes were made, including, adding home page and repository information for published packages.
+
 ## 0.1.4
 
 ### Patch Changes
