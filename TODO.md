@@ -7,6 +7,8 @@ This file contains things the user is required to do in this project.
 ### Upcoming
 
 - [ ] Set up Testing before build.
+- [ ] Add Code of conduct
+- [ ] Add Security Policy
 - [ ] Set up version control for the packages.
 - [ ] Update github actions for exird to update version of exird-addons
 - [x] Set up add-ons package

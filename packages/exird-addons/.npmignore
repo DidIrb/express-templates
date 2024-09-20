@@ -22,3 +22,7 @@ eslint.config.mjs
 
 # Ignore Build script
 build.js
+
+# Do not ignore any files inside the dist folder
+!dist/
+!dist/**

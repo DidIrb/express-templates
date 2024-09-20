@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "exirdjs is a template engine for express. similar to shadcn ui in design aiming to help users set up an express server quickly and easily.",
   "main": "index.js",
+  "homepage": "https://exirdjs.irbaye.com",
+  "repository": {
+    "url": "https://github.com/didirb/exirdjs"
+  },
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified for now\"",

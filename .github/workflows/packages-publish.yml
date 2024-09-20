@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - "packages/**"
       - ".changeset/**"
 
 jobs:
@@ -54,7 +53,10 @@ jobs:
           commit: "chore(release): version packages [skip ci]"
           title: "chore(release): version packages [skip ci]"
           version: pnpm changeset version
-          publish: pnpm changeset publish
+          publish: false
+
+      - name: Publish packages
+        run: pnpm changeset publish
 
       - name: Extract version number
         id: get_version
