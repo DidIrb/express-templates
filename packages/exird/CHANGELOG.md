@@ -1,5 +1,12 @@
 # exird
 
+## 0.2.7
+
+### Patch Changes
+
+- Updated dependencies [[`cf14e9e`](https://github.com/DidIrb/exirdjs/commit/cf14e9e57abfb90c87d224ae658be4006c52d5f8)]:
+  - exird-addons@0.1.6
+
 ## 0.2.6
 
 ### Patch Changes

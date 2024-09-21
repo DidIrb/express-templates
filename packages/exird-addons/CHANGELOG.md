@@ -1,5 +1,11 @@
 # exird-addons
 
+## 0.1.6
+
+### Patch Changes
+
+- [`cf14e9e`](https://github.com/DidIrb/exirdjs/commit/cf14e9e57abfb90c87d224ae658be4006c52d5f8) Thanks [@DidIrb](https://github.com/DidIrb)! - Fixing issue affecting publishing, typescript templates without, src and other neccesary files
+
 ## 0.1.5
 
 ### Patch Changes
