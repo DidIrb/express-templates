@@ -10,6 +10,11 @@ This file contains things the user is required to do in this project.
 - [ ] Add Code of conduct
 - [ ] Add Security Policy
 - [ ] Set up version control for the packages.
+- [ ] Ensure user uses the latest major version
+- [ ] Allow user to use latest version
+- [ ] Migrate to using tsup to compile the code
+- [ ] Remove the script that copies functions from types 
+- [ ] Export types from index.ts and delete functions.d.ts file
 - [ ] Update github actions for exird to update version of exird-addons
 - [x] Set up add-ons package
 - [x] Update exird package to show metadata

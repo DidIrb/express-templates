@@ -1,9 +1,8 @@
 {
   "name": "@exirdjs/typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "The base express-typescript template from exirdjs",
   "main": "index.ts",
-  "type": "module",
   "private": true,
   "scripts": {
     "start": "node dist/index.js",

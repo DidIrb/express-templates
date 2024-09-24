@@ -4,7 +4,6 @@ import chalk from 'chalk';
 
 export const checkPath = async (path: string) => {
     try {
-        console.log("checking path name now!!")
         if (fs.existsSync(path) && fs.readdirSync(path).length > 0) {
             const choices = [
                 'Remove existing files and continue',
