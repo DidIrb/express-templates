@@ -1,4 +1,4 @@
 export interface InitPromptResponse {
-  projectName: string;
-  variant: string;
+  projectName: string
+  variant: string
 }
