@@ -3,7 +3,7 @@
   "version": "0.1.6",
   "description": "A shared utility package for the exirdjs project, providing common functions used by the exird CLI tool and the create-exird scaffolding tool to streamline Express application development.",
   "main": "dist/index.js",
-  "module": "dist/index.mts",
+  "module": "dist/index.mjs",
   "type": "module",
   "types": "dist/index.d.ts",
   "homepage": "https://exirdjs.irbaye.com",
@@ -13,13 +13,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified, continue to next step\"",
     "commit": "pnpm -w run commit",
-    "build": "tsc --outDir dist && node build.js",
-    "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
+    "build": "tsup && node build.js",
+    "lint": "tsc --noEmit",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true",
     "ci": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "bin": {
-    "exird-addons": "dist/index.js"
+    "exird-addons": "bin/index.js"
   },
   "keywords": [
     "exirdjs",
@@ -42,6 +42,7 @@
     "@typescript-eslint/parser": "^8.4.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
+    "tsup": "^8.3.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {

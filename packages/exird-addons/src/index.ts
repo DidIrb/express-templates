@@ -1,9 +1,7 @@
-#!/usr/bin/env node
+export * from "./shared/utils/init"
+export * from "./shared/prompts/init.prompt"
+export * from "./shared/utils/copy"
+export * from "./shared/utils/checks"
+export * from "./config/ignore"
 
-import { actionPrompt } from "./shared/prompts/action.js";
-import { initPrompt } from "./shared/prompts/init.prompt.js";
-import { checkPath } from "./shared/utils/checks.js";
-import { copyTemplate } from "./shared/utils/copy.js";
-export * from "./shared/utils/init.js";
-
-export { copyTemplate, initPrompt, actionPrompt, checkPath }
+export * from "./types"

@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export async function copyTemplate(template: string, destination: string) {
-  const templatePath = path.resolve(__dirname, '../../templates', template.toLowerCase());
+  const templatePath = path.resolve(__dirname, 'templates', template.toLowerCase());
 
   try {
     await fs.copy(templatePath, destination, {

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import chalk from 'chalk';
 import { program } from 'commander';
 import { checkPath, copyTemplate, init } from "exird-addons";

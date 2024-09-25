@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { program } from 'commander';
 import { init } from 'exird-addons';
 import { readFileSync } from 'fs';

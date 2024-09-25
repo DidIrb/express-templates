@@ -4,18 +4,20 @@
   "description": "The exird CLI is a tool for creating and managing Express applications, making development faster and easier",
   "main": "dist/index.js",
   "type": "module",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "bin": {
-    "exird": "dist/index.js"
+    "exird": "bin/index.js"
   },
   "homepage": "https://exirdjs.irbaye.com",
   "repository": {
     "url": "https://github.com/didirb/exirdjs"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "start": "node dist/index.js",
     "commit": "pnpm -w run commit",
-    "lint": "eslint \"src/**/*.{ts,tsx}\" || true",
+    "lint": "tsc --noEmit",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix || true"
   },
   "keywords": [
@@ -34,6 +36,7 @@
     "@typescript-eslint/parser": "^8.2.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
+    "tsup": "^8.3.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
