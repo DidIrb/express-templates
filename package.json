@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "exirdjs is a template engine for express. similar to shadcn ui in design aiming to help users set up an express server quickly and easily.",
   "main": "index.js",
+  "types": "module",
   "homepage": "https://exirdjs.irbaye.com",
   "repository": {
     "url": "https://github.com/didirb/exirdjs"
@@ -10,10 +11,13 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified for now\"",
-    "lint": "echo \"Error: no lint specified for now\"",
+    "lint": "eslint .",
     "commit": "git cz",
     "version-packages": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "prepare": "pnpm husky",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "config": {
     "commitizen": {
@@ -43,7 +47,28 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.8",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/js": "^9.11.1",
     "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.7.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "semi": false
   }
 }

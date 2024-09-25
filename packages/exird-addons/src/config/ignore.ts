@@ -6,5 +6,5 @@ export const ignoreFiles = [
   "build",
   ".git",
   ".DS_Store",
-  ".docs"
-];
+  ".docs",
+]
