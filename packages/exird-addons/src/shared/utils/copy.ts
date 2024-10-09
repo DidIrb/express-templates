@@ -2,7 +2,7 @@ import fs from "fs-extra"
 import path from "path"
 import { fileURLToPath } from "url"
 import chalk from "chalk"
-import { ignoreFiles } from "../../config/ignore.js"
+import { ignoreFiles } from "../config/ignore.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

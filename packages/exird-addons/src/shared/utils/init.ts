@@ -20,3 +20,8 @@ export async function init() {
     }
   }
 }
+
+export function handleExit(): void {
+  console.log(chalk.red("\n✖"), `Operation canceled.`)
+  process.exit(0)
+}

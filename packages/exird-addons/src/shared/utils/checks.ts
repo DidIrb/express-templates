@@ -1,5 +1,5 @@
 import fs from "fs-extra"
-import { actionPrompt } from "../prompts/action.js"
+import { actionPrompt } from "../prompts/checks.prompt.js"
 import chalk from "chalk"
 
 export const checkPath = async (path: string) => {
@@ -23,6 +23,6 @@ export const checkPath = async (path: string) => {
       // No need to handle 'Ignore files and continue' as it will just proceed
     }
   } catch (error) {
-    console.log("an error occured!", error)
+    console.log("an error occurred!", error)
   }
 }

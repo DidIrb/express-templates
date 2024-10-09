@@ -97,7 +97,13 @@ importers:
       exird-addons:
         specifier: workspace:*
         version: link:../exird-addons
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
     devDependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
       '@types/node':
         specifier: ^22.5.0
         version: 22.5.0
