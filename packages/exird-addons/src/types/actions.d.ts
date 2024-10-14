@@ -13,3 +13,14 @@ export interface GenerateWorkflowParams {
   workflowName: string
   steps: string[]
 }
+
+export interface ExirdConfig {
+  packageManager: string
+  language: string
+  entry: string
+  format: string
+  name: string
+  exird: boolean
+  actions: string[]
+  addons: Record<string, string>
+}

@@ -13,12 +13,6 @@ export default [
     rules: { "prettier/prettier": "error" },
   },
   {
-    ignores: [
-      "node_modules",
-      "eslint.config.mjs",
-      "apps",
-      "**/dist",
-      "config/*",
-    ],
+    ignores: ["node_modules", "eslint.config.mjs", "apps", "**/dist", "config/*"],
   },
 ]

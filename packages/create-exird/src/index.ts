@@ -3,9 +3,7 @@ import { program } from "commander"
 import { checkPath, copyTemplate, init } from "exird-addons"
 import { readFileSync } from "fs"
 import path from "path"
-const packageJson = JSON.parse(
-  readFileSync(new URL("../package.json", import.meta.url), "utf-8"),
-)
+const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8"))
 
 program
   .name(packageJson.name)
@@ -25,24 +23,13 @@ const projectName = program.args[0]
   if (!projectName && !options.typescript && !options.javascript) {
     await init()
   } else {
-    const template = options.typescript
-      ? "typescript"
-      : options.javascript
-        ? "javascript"
-        : null
+    const template = options.typescript ? "typescript" : options.javascript ? "javascript" : null
     if (!template) {
-      console.log(
-        chalk.yellow(
-          "No template specified. Use --typescript or --javascript.",
-        ),
-      )
+      console.log(chalk.yellow("No template specified. Use --typescript or --javascript."))
       process.exit(1)
     }
 
-    const destination = path.resolve(
-      process.cwd(),
-      projectName || "exirdjs-project",
-    )
+    const destination = path.resolve(process.cwd(), projectName || "exirdjs-project")
     await checkPath(destination)
     await copyTemplate(template, destination)
   }

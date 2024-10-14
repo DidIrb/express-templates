@@ -28,17 +28,14 @@ async function generateTypeDefinitions() {
   output += `}\n`
 
   fs.writeFileSync(dtsPath, output)
-  console.log(
-    chalk.green("✔"),
-    "Type definitions encapsulated in dist/index.d.ts",
-  )
+  console.log(chalk.green("SCS"), "Type definitions encapsulated in dist/index.d.ts")
 }
 
 async function copyTemplates() {
   await fs.copy(sourceDir, destDir, {
     filter: (src) => !ignoreFiles.includes(path.basename(src)),
   })
-  console.log(chalk.green("✔"), "Templates copied successfully!")
+  console.log(chalk.green("SCS"), "Templates copied successfully!")
 }
 
 async function build() {
@@ -46,7 +43,7 @@ async function build() {
     await generateTypeDefinitions()
     await copyTemplates()
   } catch (err) {
-    console.error(chalk.red("✖"), "Error during build process:", err)
+    console.error(chalk.red("ERR"), "Error during build process:", err)
   }
 }
 

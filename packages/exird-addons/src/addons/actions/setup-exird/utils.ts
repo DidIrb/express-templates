@@ -1,18 +1,13 @@
 import path from "path"
 import fs from "fs-extra"
-import { DirectoryCheckResult } from "../../types/checks"
+import { DirectoryCheckResult } from "../../../types/checks"
 
-export const checkDirectory = async (
-  dirPath: string,
-): Promise<DirectoryCheckResult> => {
+export const checkDirectory = async (dirPath: string): Promise<DirectoryCheckResult> => {
   try {
-    const isEmpty =
-      fs.existsSync(dirPath) && fs.readdirSync(dirPath).length === 0
+    const isEmpty = fs.existsSync(dirPath) && fs.readdirSync(dirPath).length === 0
     const packageJsonPath = path.join(dirPath, "package.json")
     const packageJsonExists = fs.existsSync(packageJsonPath)
-    const packageJson = packageJsonExists
-      ? await fs.readJson(packageJsonPath)
-      : null
+    const packageJson = packageJsonExists ? await fs.readJson(packageJsonPath) : null
 
     const hasExpress = packageJson?.dependencies?.express || false
     const moduleSystem = packageJson?.type || null

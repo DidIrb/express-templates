@@ -28,10 +28,3 @@ This will ask the user a few questions and help them set up their express applic
 ## License
 
 This project is licensed under the MIT License.
-
-<!--
-    To remove packages
-    "commander": "^12.1.0",
-    "enquirer": "^2.4.1",
-    "fs-extra": "^11.2.0"
- -->

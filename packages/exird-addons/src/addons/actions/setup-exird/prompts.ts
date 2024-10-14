@@ -5,7 +5,6 @@ const { prompt } = Enquirer
 export interface ExirdPromptResponse {
   language: string
   moduleSystem: string
-  useSrcDirectory: boolean
   entryPoint: string
   packageManager: string
   projectName: string
@@ -28,14 +27,13 @@ export async function getModuleSystem(): Promise<string> {
     type: "select",
     name: "moduleSystem",
     message: "Choose the module system:",
-    choices: ["CommonJS (require)", "ES6 (import/export)"],
+    choices: ["CommonJS", "ES6"],
   })
   return response.moduleSystem
 }
 
 export async function getEntryPoint(language: string): Promise<string> {
-  const initialEntryPoint =
-    language === "TypeScript" ? "src/index.ts" : "src/index.js"
+  const initialEntryPoint = language === "TypeScript" ? "src/index.ts" : "src/index.js"
   const response: ExirdPromptResponse = await prompt({
     type: "input",
     name: "entryPoint",
@@ -65,7 +63,7 @@ export async function getProjectName(): Promise<string> {
   return response.projectName
 }
 
-export async function getNewFolderName(): Promise<string> {
+export async function getFolder(): Promise<string> {
   const response: ExirdPromptResponse = await prompt({
     type: "input",
     name: "newFolderName",
@@ -74,11 +72,12 @@ export async function getNewFolderName(): Promise<string> {
   return response.newFolderName!
 }
 
-export async function promptInitializeNewProject(): Promise<boolean> {
+export async function promptInitializeNewProject(): Promise<string> {
   const response: ExirdPromptResponse = await prompt({
     type: "confirm",
     name: "initializeNewProject",
     message: "Do you want to initialize a new Exird project?",
   })
-  return response.initializeNewProject!
+
+  return response.initializeNewProject ? "Yes" : "No"
 }

@@ -1,15 +1,11 @@
+import chalk from "chalk"
 import fs from "fs-extra"
 import { actionPrompt } from "../prompts/checks.prompt.js"
-import chalk from "chalk"
 
 export const checkPath = async (path: string) => {
   try {
     if (fs.existsSync(path) && fs.readdirSync(path).length > 0) {
-      const choices = [
-        "Remove existing files and continue",
-        "Cancel operation",
-        "Ignore files and continue",
-      ]
+      const choices = ["Remove existing files and continue", "Cancel operation", "Ignore files and continue"]
 
       const action = await actionPrompt(choices)
       const actionIndex = choices.indexOf(action)

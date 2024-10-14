@@ -68,6 +68,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "prettier": {
+    "printWidth": 150,
     "singleQuote": false,
     "semi": false
   }

@@ -2,17 +2,13 @@ import fs from "fs-extra"
 import path from "path"
 import { fileURLToPath } from "url"
 import chalk from "chalk"
-import { ignoreFiles } from "../config/ignore.js"
+import { ignoreFiles } from "../../config/ignore.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export async function copyTemplate(template: string, destination: string) {
-  const templatePath = path.resolve(
-    __dirname,
-    "templates",
-    template.toLowerCase(),
-  )
+  const templatePath = path.resolve(__dirname, "templates", template.toLowerCase())
 
   try {
     await fs.copy(templatePath, destination, {
@@ -25,12 +21,7 @@ export async function copyTemplate(template: string, destination: string) {
 }
 
 function isNodeError(error: unknown): error is NodeJS.ErrnoException {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    "syscall" in error
-  )
+  return typeof error === "object" && error !== null && "code" in error && "syscall" in error
 }
 
 function handleCopyError(error: unknown) {

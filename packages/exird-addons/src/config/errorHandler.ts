@@ -12,19 +12,13 @@ export class CustomError extends Error {
 
 export function globalErrorHandler(error: unknown) {
   if (error === "") {
-    console.error(chalk.red("✖"), "Operation canceled.")
+    console.log(chalk.gray("EXT"), "Operation canceled!")
+    process.exit(0)
   } else if (error instanceof CustomError) {
-    console.error(
-      chalk.red("ERR"),
-      `Code: ${error.code}, Message: ${error.message}`,
-    )
+    console.error(chalk.red("ERR"), `Code: ${error.code}, Message: ${error.message}`)
   } else if (error instanceof Error) {
     console.error(chalk.red("ERR"), error.message)
   } else {
-    console.error(
-      chalk.red("ERR"),
-      "An unknown error occurred.",
-      JSON.stringify(error),
-    )
+    console.error(chalk.red("ERR"), "An unknown error occurred.", JSON.stringify(error))
   }
 }
