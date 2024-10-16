@@ -6,7 +6,7 @@ import { Action, ExirdConfig } from "../../../types/actions"
 import { generateConfig, createWorkflowsFolder, generateWorkflow } from "./config"
 import { promptInitializeNewProject, getFolder } from "./prompts"
 import { checkDirectory } from "./utils"
-import { printMessage, updateConfigValue } from "../shared/utils"
+import { printMessage, updateConfig } from "../shared/utils"
 
 export const setupExird: Action = {
   name: "setup-exird",
@@ -54,7 +54,7 @@ export const setupExird: Action = {
         steps: ["setup-exird", "setup-express"],
       })
 
-      await updateConfigValue("actions", ["setup-exird"])
+      await updateConfig("actions", ["setup-exird"])
 
       printMessage(chalk.green("SCS"), "Exird initialized successfully!")
     } catch (error) {

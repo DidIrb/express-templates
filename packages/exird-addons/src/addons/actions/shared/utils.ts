@@ -13,15 +13,18 @@ export const checkForPackageJson = (dirPath: string): boolean => {
   return fs.existsSync(packageJsonPath)
 }
 
-export function updateConfigValue<K extends keyof ExirdConfig>(key: K, value: ExirdConfig[K]) {
+export function updateConfig<K extends keyof ExirdConfig>(key: K, value: ExirdConfig[K]) {
   const config: ExirdConfig = fs.readJsonSync(configPath)
+
   if (Array.isArray(config[key]) && Array.isArray(value)) {
-    const uniqueValues = new Set(config[key] as string[])
-    value.forEach((item) => uniqueValues.add(item))
+    const uniqueValues = new Set([...(config[key] as string[]), ...value])
     config[key] = Array.from(uniqueValues) as ExirdConfig[K]
+  } else if (typeof config[key] === "object" && config[key] !== null && typeof value === "object" && value !== null) {
+    config[key] = { ...config[key], ...value }
   } else {
     config[key] = value
   }
+
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
 }
 
@@ -45,12 +48,27 @@ export const checkAction = (action: string, force: boolean = false): boolean => 
 
 export const installDependencies = async (packageManager: string, dependencies: { deps: string[]; devDeps: string[] }): Promise<void> => {
   try {
-    if (dependencies.deps.length > 0) {
-      await execPromise(`${packageManager} install ${dependencies.deps.join(" ")}`)
+    const packageJsonPath = path.resolve(process.cwd(), "package.json")
+    const packageJson = fs.existsSync(packageJsonPath) ? await fs.readJson(packageJsonPath) : { dependencies: {}, devDependencies: {} }
+
+    // Ensure dependencies and devDependencies are treated as empty objects if missing
+    packageJson.dependencies = packageJson.dependencies || {}
+    packageJson.devDependencies = packageJson.devDependencies || {}
+
+    const install = async (deps: string[], dev: boolean) => {
+      const missingDeps = deps.filter((dep) => {
+        const depName = dep.split("@")[0]
+        return !(dev ? packageJson.devDependencies[depName] : packageJson.dependencies[depName])
+      })
+
+      if (missingDeps.length > 0) {
+        const saveFlag = dev ? "--save-dev" : ""
+        await execPromise(`${packageManager} install ${missingDeps.join(" ")} ${saveFlag}`)
+      }
     }
-    if (dependencies.devDeps.length > 0) {
-      await execPromise(`${packageManager} install ${dependencies.devDeps.join(" ")} --save-dev`)
-    }
+
+    await install(dependencies.deps, false)
+    await install(dependencies.devDeps, true)
   } catch (error) {
     console.error(chalk.red("ERR"), `Failed to install dependencies:`, error)
     throw error
@@ -63,4 +81,20 @@ export function printMessage(...messages: string[]) {
   console.log(separator)
   console.log(messages.map((msg) => msg.toString()).join(" "))
   console.log(separator)
+}
+
+export const normalizeName = (name: string): string => {
+  return name
+    .replace(/^--/, "")
+    .replace(/^-/, "")
+    .replace(/^setup-/, "")
+}
+
+export const createFile = async (filePath: string, content: string): Promise<void> => {
+  try {
+    await fs.outputFile(filePath, content)
+  } catch (error) {
+    console.error(chalk.red("ERR"), `Failed to create file ${filePath}:`, error)
+    throw error
+  }
 }

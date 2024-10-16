@@ -34,7 +34,7 @@ app.listen(PORT, () => {
   console.log(\`Server is running on http://localhost:\${PORT}\`);
 });`
 
-export const createIndexFile = (language: string, format: string): string => {
+export const entryFile = (language: string, format: string): string => {
   if (language === "TypeScript" && format === "CommonJS") return TSCode
   if (language === "TypeScript" && format === "ES6") return TSCode
 

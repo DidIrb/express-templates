@@ -1,7 +1,7 @@
 export interface Action {
   name: string
   description: string
-  execute(force: boolean): Promise<void>
+  execute(force: boolean, subActionNames?: string[]): Promise<void>
 }
 
 export interface WorkflowStep {

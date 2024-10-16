@@ -1,14 +1,12 @@
-import chalk from "chalk"
 import fs from "fs-extra"
 import { Listr } from "listr2"
 import { globalErrorHandler } from "../../../config/errorHandler"
 import { Action, ExirdConfig } from "../../../types"
 import { setupExird } from "../setup-exird"
-import { checkAction, checkForPackageJson, configPath, execPromise, installDependencies, printMessage, updateConfigValue } from "../shared/utils"
-import { createIndexFile, getGitignore, getReadme, getTsConfig } from "./content"
-import { createFile, initializeProject, updateScripts } from "./utils"
+import { checkAction, checkForPackageJson, configPath, createFile, execPromise, installDependencies, updateConfig } from "../shared/utils"
+import { entryFile, getGitignore, getReadme, getTsConfig } from "./content"
+import { initializeProject, showMsg, updateScripts } from "./utils"
 
-// ** Please account for things like npm -y when initializing
 export const setupExpress: Action = {
   name: "setup-express",
   description: "Setting up an Express project with necessary configurations",
@@ -35,10 +33,10 @@ export const setupExpress: Action = {
               await createFile(".gitignore", getGitignore())
               await createFile("tsconfig.json", getTsConfig(config.format))
               await createFile("README.md", getReadme("TypeScript"))
-              await createFile("src/index.ts", createIndexFile(config.language, config.format))
+              await createFile(config.entry, entryFile(config.language, config.format))
             } else {
               await createFile(".gitignore", getGitignore())
-              await createFile("src/index.js", createIndexFile(config.language, config.format))
+              await createFile(config.entry, entryFile(config.language, config.format))
               await createFile("README.md", getReadme("JavaScript"))
             }
           },
@@ -57,24 +55,28 @@ export const setupExpress: Action = {
           title: "Setting package name",
           task: async () => {
             await execPromise(`pnpm pkg set name=${config.name}`)
+            if (config.language === "JavaScript" && config.format === "ES6") {
+              await execPromise(`${config.packageManager} pkg set type="module"`)
+            }
           },
         },
         {
           title: "Updating package.json scripts",
           task: async () => {
-            await updateScripts(config.packageManager, config.language)
+            await updateScripts(config.packageManager, config.entry, config.language)
           },
         },
         {
           title: "Updating configuration values",
           task: async () => {
-            await updateConfigValue("actions", ["setup-express"])
+            await updateConfig("actions", ["setup-express"])
           },
         },
       ])
 
       await tasks.run()
-      printMessage(chalk.green("SCS"), "Express base setup complete.")
+      showMsg(config)
+      // printMessage(chalk.green("SCS"), "Express base setup complete.")
     } catch (error) {
       globalErrorHandler(error)
     }

@@ -22,14 +22,15 @@ program
   .action(() => init())
 
 program
-  .command("run <actionName>")
+  .command("run <actionName> [subActions...]")
   .description("Run a specified action")
   .option("-f, --force", "force the action to run")
-  .action(async (actionName, options) => {
+  .allowUnknownOption(true) // Allow unknown options to be passed as arguments
+  .action(async (actionName, subActions, options) => {
     const action = getAction(actionName)
     if (action) {
       try {
-        await action.execute(options.force)
+        await action.execute(options.force, subActions)
       } catch (error) {
         console.error(error)
       }

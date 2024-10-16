@@ -1,5 +1,5 @@
 import chalk from "chalk"
-import fs from "fs-extra"
+import { ExirdConfig } from "../../../types"
 import { execPromise } from "../shared/utils"
 
 export const initializeProject = async (packageManager: string): Promise<void> => {
@@ -13,24 +13,15 @@ export const initializeProject = async (packageManager: string): Promise<void> =
   }
 }
 
-export const createFile = async (filePath: string, content: string): Promise<void> => {
-  try {
-    await fs.outputFile(filePath, content)
-  } catch (error) {
-    console.error(chalk.red("ERR"), `Failed to create file ${filePath}:`, error)
-    throw error
-  }
-}
-
-export const updateScripts = async (packageManager: string, language: string): Promise<void> => {
+export const updateScripts = async (packageManager: string, entry: string, language: string): Promise<void> => {
   const tasks = [
     language === "TypeScript" ? `${packageManager} pkg set main="dist/index.js"` : `${packageManager} pkg set main="src/index.js"`,
     language === "TypeScript"
       ? `${packageManager} pkg set scripts.start="node ./dist/index.js"`
       : `${packageManager} pkg set scripts.start="node ./dist/index.js"`,
     language === "TypeScript"
-      ? `${packageManager} pkg set scripts.dev="ts-node-dev ./src/index.ts"`
-      : `${packageManager} pkg set scripts.dev="nodemon ./src/index.js"`,
+      ? `${packageManager} pkg set scripts.dev="ts-node-dev ${entry}"`
+      : `${packageManager} pkg set scripts.dev="nodemon ${entry}"`,
     language === "TypeScript"
       ? `${packageManager} pkg set scripts.build="tsup src/index.ts --format cjs,esm --dts"`
       : `${packageManager} pkg set scripts.build="tsup src/index.js --format cjs,esm"`,
@@ -44,4 +35,18 @@ export const updateScripts = async (packageManager: string, language: string): P
     console.error(chalk.red("ERR"), `Failed to update package.json scripts:`, error)
     throw error
   }
+}
+
+export const showMsg = (config: ExirdConfig) => {
+  const message = `
+Express Project setup for 
+  - ${config.name}
+  - ${config.language}
+  - ${config.format}
+is complete!
+
+To start the server, run:
+${chalk.cyan(`${config.packageManager} run dev`)}
+  `
+  console.log(message)
 }
