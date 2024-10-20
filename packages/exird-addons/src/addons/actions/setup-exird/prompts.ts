@@ -10,6 +10,7 @@ export interface ExirdPromptResponse {
   projectName: string
   newFolderName?: string
   initializeNewProject?: boolean
+  database: Record<string, string>
 }
 
 export async function getLanguage(): Promise<string> {

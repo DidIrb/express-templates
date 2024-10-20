@@ -23,4 +23,5 @@ export interface ExirdConfig {
   exird: boolean
   actions: string[]
   addons: Record<string, string>
+  database: Record<string, string>
 }

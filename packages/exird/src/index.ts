@@ -1,6 +1,6 @@
 import chalk from "chalk"
 import { program } from "commander"
-import { getAction, init } from "exird-addons"
+import { getAction, init, updateENV } from "exird-addons"
 import { readFileSync } from "fs"
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8"))
@@ -20,6 +20,19 @@ program
   .command("init")
   .description("Initialize a new express project")
   .action(() => init())
+
+program
+  .command("env <variables...>")
+  .description("Add environment variables")
+  .action((variables: string[]) => {
+    const obj = variables.reduce((acc: { [key: string]: string }, cur: string) => {
+      const [key, value] = cur.split("=")
+      acc[key] = value || ""
+      return acc
+    }, {})
+
+    updateENV(".env", ["DEVELOPMENT", "TEST", "STAGING", "PRODUCTION"], obj)
+  })
 
 program
   .command("run <actionName> [subActions...]")

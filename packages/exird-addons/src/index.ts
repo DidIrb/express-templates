@@ -7,5 +7,6 @@ export * from "./shared/utils/checks"
 export * from "./shared/utils/copy"
 export * from "./shared/utils/init"
 export * from "./types"
+export * from "./addons/actions/shared/utils"
 
 export * from "./registry"

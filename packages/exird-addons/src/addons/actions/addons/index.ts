@@ -1,10 +1,10 @@
 import chalk from "chalk"
+import fs from "fs-extra"
 import { globalErrorHandler } from "../../../config/errorHandler"
 import { Action, ExirdConfig } from "../../../types"
+import { setupExird } from "../setup-exird"
 import { configPath, normalizeName, printMessage, updateConfig } from "../shared/utils"
 import registerSubActions from "./registry"
-import fs from "fs-extra"
-import { setupExird } from "../setup-exird"
 
 const subActions = registerSubActions()
 
@@ -12,10 +12,9 @@ export const addons: Action = {
   name: "addons",
   description: "Setting up additional configurations and dependencies",
   async execute(force: boolean = false, subActionsList: string[] = []): Promise<void> {
+    const config: ExirdConfig = fs.readJsonSync(configPath)
     try {
       if (!fs.existsSync(configPath)) await setupExird.execute(force)
-
-      const config: ExirdConfig = fs.readJsonSync(configPath)
 
       if (subActionsList.length === 0) {
         console.log(chalk.blue("Available sub-actions:"))

@@ -1,11 +1,18 @@
 import fs from "fs-extra"
 import path from "path"
 import { DirectoryCheckResult, GenerateWorkflowParams } from "../../../types"
+import { getDatabase, getDBType, getMapper } from "../setup-database/prompts"
 import { getEntryPoint, getLanguage, getModuleSystem, getPackageManager, getProjectName } from "./prompts"
 
 export async function generateConfig(projectDetails: DirectoryCheckResult) {
   const language = projectDetails.hasTypeScript ? "TypeScript" : await getLanguage()
   const entry = projectDetails.entry || (await getEntryPoint(language))
+  const type = await getDBType()
+  const database = {
+    type: projectDetails.databaseType || type,
+    name: projectDetails.database || (await getDatabase(type)),
+    mapper: projectDetails.mapper || (await getMapper(projectDetails.databaseType || type)),
+  }
 
   const config = {
     packageManager: projectDetails.packageManager || (await getPackageManager()),
@@ -16,6 +23,7 @@ export async function generateConfig(projectDetails: DirectoryCheckResult) {
     exird: true,
     actions: [],
     addons: {},
+    database: database,
   }
 
   return config

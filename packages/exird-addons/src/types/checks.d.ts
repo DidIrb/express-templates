@@ -9,4 +9,7 @@ export interface DirectoryCheckResult {
   name: string | null
   entry: string | null
   isExird: boolean
+  database: string | null
+  mapper: string | null
+  databaseType: string | null
 }

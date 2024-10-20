@@ -3,17 +3,14 @@ import fs from "fs-extra"
 import { Listr } from "listr2"
 import path from "path"
 import { ExirdConfig } from "../../../../types"
-import { createFile, installDependencies } from "../../shared/utils"
+import { configPath, createFile, installDependencies } from "../../shared/utils"
 
 const setupEnv = {
   name: "env",
   description: "Sets up the project environment.",
   execute: async () => {
-    const configPath = path.resolve(process.cwd(), ".exird/exird.config.json")
-    const config: ExirdConfig = fs.readJsonSync(configPath)
-
     console.log(chalk.bold.blue("Running Environment Setup..."))
-
+    const config: ExirdConfig = fs.readJsonSync(configPath)
     const tasks = new Listr([
       {
         title: "Installing dependencies",

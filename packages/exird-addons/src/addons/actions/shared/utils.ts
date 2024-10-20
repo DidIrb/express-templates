@@ -1,9 +1,9 @@
+import chalk from "chalk"
+import { exec } from "child_process"
 import fs from "fs-extra"
 import path from "path"
-import { ExirdConfig } from "../../../types"
-import { exec } from "child_process"
 import { promisify } from "util"
-import chalk from "chalk"
+import { ExirdConfig } from "../../../types"
 
 export const configPath = path.join(process.cwd(), ".exird", "exird.config.json")
 export const execPromise = promisify(exec)
@@ -40,7 +40,7 @@ export const executeCommand = async (command: string): Promise<void> => {
 export const checkAction = (action: string, force: boolean = false): boolean => {
   const config: ExirdConfig = fs.readJsonSync(configPath)
   if (!force && config.actions.includes(action)) {
-    console.log(chalk.grey("EXT"), `Skipping action: "${action}" has already been executed.`)
+    console.log(chalk.grey("EXT"), `Skipping action:`, chalk.cyan(`${action}`), ` has already been executed.`)
     return true
   }
   return false
@@ -97,4 +97,99 @@ export const createFile = async (filePath: string, content: string): Promise<voi
     console.error(chalk.red("ERR"), `Failed to create file ${filePath}:`, error)
     throw error
   }
+}
+
+export const updateENV = (filePath: string, environments: string[], newVariables: { [key: string]: string }) => {
+  const envFilePath = path.resolve(process.cwd(), filePath)
+  const envFileContent = fs.readFileSync(envFilePath, "utf-8").split("\n")
+  let updatedEnvContent = ""
+  const sections: { [key: string]: boolean } = {}
+
+  const upperCaseVariables = Object.keys(newVariables).reduce((acc: { [key: string]: string }, key: string) => {
+    acc[key.toUpperCase()] = newVariables[key]
+    return acc
+  }, {})
+
+  envFileContent.forEach((line) => {
+    updatedEnvContent += `${line}\n`
+
+    environments.forEach((env) => {
+      if (line.includes(`# ${env} variables`)) {
+        sections[env] = true
+        Object.keys(upperCaseVariables).forEach((variable) => {
+          const variablePattern = new RegExp(`^${variable}_${env}=`)
+          if (!envFileContent.some((envLine) => variablePattern.test(envLine))) {
+            updatedEnvContent += `${variable}_${env}=${upperCaseVariables[variable]}\n`
+          }
+        })
+      }
+    })
+  })
+
+  environments.forEach((env) => {
+    if (!sections[env]) {
+      updatedEnvContent += `# ${env} variables\n`
+      Object.keys(upperCaseVariables).forEach((variable) => {
+        const variablePattern = new RegExp(`^${variable}_${env}=`)
+        if (!envFileContent.some((envLine) => variablePattern.test(envLine))) {
+          updatedEnvContent += `${variable}_${env}=${upperCaseVariables[variable]}\n`
+        }
+      })
+      updatedEnvContent += "\n"
+    }
+  })
+
+  fs.writeFileSync(envFilePath, updatedEnvContent)
+  updateConfigFile("src/config.js", newVariables)
+  console.log(chalk.green("SCS"), `Environment variables Updated.`)
+}
+
+export const updateConfigFile = (configFilePath: string, newVariables: { [key: string]: string }) => {
+  const configPath = path.resolve(process.cwd(), configFilePath)
+  let configContent = fs.readFileSync(configPath, "utf-8")
+
+  const newConfigEntries = Object.keys(newVariables)
+    .map((variable) => {
+      const variablePattern = new RegExp(
+        `\\s*${variable.toLowerCase()}:\\s*process\\.env\\[\\\`${variable.toUpperCase()}_\\$\\{NODE_ENV\\.toUpperCase\\(\\)\\}\\\`]`,
+      )
+      if (!variablePattern.test(configContent)) {
+        // return `  ${variable.toLowerCase()}: process.env[\`${variable.toUpperCase()}_\${NODE_ENV.toUpperCase()}\`] || '${newVariables[variable]}'`;
+        return `  ${variable.toLowerCase()}: process.env[\`${variable.toUpperCase()}_\${NODE_ENV.toUpperCase()}\`]`
+      }
+      return ""
+    })
+    .filter((entry) => entry)
+    .join(",\n")
+
+  if (newConfigEntries === "") {
+    console.log(chalk.gray("EXT"), "No new variables to add.")
+    return
+  }
+
+  const ensureComma = (match: string, p1: string) => {
+    if (p1.trim().endsWith(",")) {
+      return `${p1.trim()}\n${newConfigEntries}\n`
+    } else {
+      return `${p1.trim()},\n${newConfigEntries}\n`
+    }
+  }
+
+  if (configContent.includes("module.exports = {")) {
+    configContent = configContent.replace(/module\.exports = \{([\s\S]*?)\};/, (match, p1) => {
+      const updatedObjectContent = ensureComma(match, p1)
+      return `module.exports = {\n  ${updatedObjectContent}};`
+    })
+  } else if (configContent.includes("export default {")) {
+    configContent = configContent.replace(/export default \{([\s\S]*?)\};/, (match, p1) => {
+      const updatedObjectContent = ensureComma(match, p1)
+      return `export default {\n  ${updatedObjectContent}};`
+    })
+  } else {
+    console.error("No config object found in the file.")
+    return
+  }
+
+  fs.writeFileSync(configPath, configContent)
+  console.log(chalk.green("SCS"), `Configurations Updated.`)
 }

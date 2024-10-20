@@ -3,17 +3,14 @@ import { Listr } from "listr2"
 import fs from "fs-extra"
 import path from "path"
 import { ExirdConfig } from "../../../../types"
-import { execPromise, installDependencies } from "../../shared/utils"
+import { configPath, execPromise, installDependencies } from "../../shared/utils"
 
 const eslint = {
   name: "eslint",
   description: "Sets up ESLint for linting JavaScript/TypeScript code.",
   execute: async () => {
-    const configPath = path.resolve(process.cwd(), ".exird/exird.config.json")
-    const config: ExirdConfig = fs.readJsonSync(configPath)
-
     console.log(chalk.bold.blue("Running ESLint Setup..."))
-
+    const config: ExirdConfig = fs.readJsonSync(configPath)
     const tasks = new Listr([
       {
         title: "Installing ESLint and necessary plugins",

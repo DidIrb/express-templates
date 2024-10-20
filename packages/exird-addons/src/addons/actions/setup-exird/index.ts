@@ -3,10 +3,10 @@ import fs from "fs-extra"
 import path from "path"
 import { globalErrorHandler } from "../../../config/errorHandler"
 import { Action, ExirdConfig } from "../../../types/actions"
-import { generateConfig, createWorkflowsFolder, generateWorkflow } from "./config"
-import { promptInitializeNewProject, getFolder } from "./prompts"
-import { checkDirectory } from "./utils"
 import { printMessage, updateConfig } from "../shared/utils"
+import { createWorkflowsFolder, generateConfig, generateWorkflow } from "./config"
+import { getFolder, promptInitializeNewProject } from "./prompts"
+import { checkDirectory } from "./utils"
 
 export const setupExird: Action = {
   name: "setup-exird",

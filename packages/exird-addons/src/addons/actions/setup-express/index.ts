@@ -12,12 +12,10 @@ export const setupExpress: Action = {
   description: "Setting up an Express project with necessary configurations",
   async execute(force: boolean = false): Promise<void> {
     const dirPath: string = process.cwd()
-
+    const config: ExirdConfig = fs.readJsonSync(configPath)
     try {
       if (!fs.existsSync(configPath)) await setupExird.execute(force)
       if (checkAction("setup-express", force)) return
-
-      const config: ExirdConfig = fs.readJsonSync(configPath)
 
       const tasks = new Listr([
         {

@@ -24,6 +24,7 @@ This is a template for creating an Express.js application using ${language}.`
 
 const TSCode = `import express, { Application, Request, Response } from "express";
 const app: Application = express();
+app.use(express.json());
 const PORT: number = 3000;
 
 app.get("/", (req: Request, res: Response) => {
@@ -41,6 +42,7 @@ export const entryFile = (language: string, format: string): string => {
   if (language === "JavaScript" && format === "ES6") {
     return `import express from "express";
 const app = express();
+app.use(express.json());
 const PORT = 3000;
 
 app.get("/", (req, res) => {
@@ -55,6 +57,7 @@ app.listen(PORT, () => {
   if (language === "JavaScript" && format === "CommonJS") {
     return `const express = require("express");
 const app = express();
+app.use(express.json());
 const PORT = 3000;
 
 app.get("/", (req, res) => {
