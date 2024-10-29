@@ -40,7 +40,7 @@ export const executeCommand = async (command: string): Promise<void> => {
 export const checkAction = (action: string, force: boolean = false): boolean => {
   const config: ExirdConfig = fs.readJsonSync(configPath)
   if (!force && config.actions.includes(action)) {
-    console.log(chalk.grey("EXT"), `Skipping action:`, chalk.cyan(`${action}`), ` has already been executed.`)
+    console.log(chalk.grey("EXT"), `Skipping action:`, chalk.cyan(`${action}`), `has already been executed.`)
     return true
   }
   return false
@@ -75,6 +75,7 @@ export const installDependencies = async (packageManager: string, dependencies: 
   }
 }
 
+// TO DELETE LATER
 export function printMessage(...messages: string[]) {
   const terminalWidth = process.stdout.columns
   const separator = "-".repeat(terminalWidth)
@@ -100,6 +101,7 @@ export const createFile = async (filePath: string, content: string): Promise<voi
 }
 
 export const updateENV = (filePath: string, environments: string[], newVariables: { [key: string]: string }) => {
+  const config: ExirdConfig = fs.readJsonSync(configPath)
   const envFilePath = path.resolve(process.cwd(), filePath)
   const envFileContent = fs.readFileSync(envFilePath, "utf-8").split("\n")
   let updatedEnvContent = ""
@@ -138,9 +140,14 @@ export const updateENV = (filePath: string, environments: string[], newVariables
       updatedEnvContent += "\n"
     }
   })
-
+  let newPath = ""
+  if (config.language === "TypeScript") {
+    newPath = "src/config.ts"
+  } else {
+    newPath = "src/config.js"
+  }
   fs.writeFileSync(envFilePath, updatedEnvContent)
-  updateConfigFile("src/config.js", newVariables)
+  updateConfigFile(newPath, newVariables)
   console.log(chalk.green("SCS"), `Environment variables Updated.`)
 }
 

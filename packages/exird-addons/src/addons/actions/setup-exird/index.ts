@@ -3,7 +3,8 @@ import fs from "fs-extra"
 import path from "path"
 import { globalErrorHandler } from "../../../config/errorHandler"
 import { Action, ExirdConfig } from "../../../types/actions"
-import { printMessage, updateConfig } from "../shared/utils"
+import { exirdjsContent } from "../../workflows/content"
+import { updateConfig } from "../shared/utils"
 import { createWorkflowsFolder, generateConfig, generateWorkflow } from "./config"
 import { getFolder, promptInitializeNewProject } from "./prompts"
 import { checkDirectory } from "./utils"
@@ -51,12 +52,12 @@ export const setupExird: Action = {
       generateWorkflow({
         projectPath: process.cwd(),
         workflowName: "exirdjs",
-        steps: ["setup-exird", "setup-express"],
+        content: exirdjsContent,
       })
 
       await updateConfig("actions", ["setup-exird"])
 
-      printMessage(chalk.green("SCS"), "Exird initialized successfully!")
+      console.log(chalk.green("SCS"), "Exird initialized successfully!`\nNow run exird workflow")
     } catch (error) {
       globalErrorHandler(error)
     }

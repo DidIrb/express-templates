@@ -8,10 +8,10 @@ export interface WorkflowStep {
   action: string
 }
 
-export interface GenerateWorkflowParams {
+interface GenerateWorkflowParams {
   projectPath: string
   workflowName: string
-  steps: string[]
+  content: string
 }
 
 export interface ExirdConfig {

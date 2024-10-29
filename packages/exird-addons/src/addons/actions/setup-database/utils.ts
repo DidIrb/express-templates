@@ -65,11 +65,17 @@ export const NavigateDB = async (config: ExirdConfig) => {
       console.log(`Database setup for ${config.database.name} is not supported.`)
   }
 }
-
 export const updateEntryFile = async (config: ExirdConfig) => {
   const entryFilePath = path.resolve(process.cwd(), config.entry)
-  const relativeDbPath = path.relative(path.dirname(entryFilePath), path.resolve(process.cwd(), "src/db"))
+  let relativeDbPath = path.relative(path.dirname(entryFilePath), path.resolve(process.cwd(), "src/db"))
+
+  // Ensure the path starts with './' if it's a relative path not starting with '..'
+  if (!relativeDbPath.startsWith(".") && !relativeDbPath.startsWith("/")) {
+    relativeDbPath = "./" + relativeDbPath
+  }
+
   let entryFileContent = await fs.readFile(entryFilePath, "utf-8")
+
   const importStatement =
     config.language === "TypeScript"
       ? `import connectDB from '${relativeDbPath.replace(/\\/g, "/")}';\n`
@@ -78,8 +84,11 @@ export const updateEntryFile = async (config: ExirdConfig) => {
         : `const connectDB = require('${relativeDbPath.replace(/\\/g, "/")}');\n`
 
   if (!entryFileContent.includes(importStatement)) {
-    const lines = entryFileContent.split("")
-    const lastImportIndex = lines.findIndex((line) => line.startsWith("import") || line.startsWith("const") || line.startsWith("require"))
+    const lines = entryFileContent.split("\n")
+    const lastImportIndex = lines.reduce(
+      (last, line, index) => (line.startsWith("import") || line.startsWith("const") || line.startsWith("require") ? index : last),
+      -1,
+    )
     lines.splice(lastImportIndex + 1, 0, importStatement)
     entryFileContent = lines.join("\n")
   }

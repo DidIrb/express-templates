@@ -1,30 +1,37 @@
-# Exird CLI
+### Exirdjs cli
 
-`exird` is a CLI tool for the exirdjs project. It leverages the `create-exird` package to scaffold applications using the `exird-init` command.
+**Exird** this is a developer productivity tool designed to streamline the setup and development of `Express.js` applications. By leveraging predefined actions and workflows.
 
-## Features
+Read The [Documentation](https://exirdjs.irbaye.com) for Further Instructions.
 
-- Provides a command-line interface for various exirdjs functionalities.
-- Uses `create-exird` to scaffold new applications.
+#### Features
 
-## Installation
+- Quick Setup
+- Workflow Automation
+- Modular Actions
 
-You can install the CLI globally using npm:
+### Installation
 
-```bash
-npm install exird -g
-```
-
-## Usage
-
-Run the following command to scaffold a new Express application.
+To install Exird, run:
 
 ```bash
-npx exird@latest init
+npm install -g exird
 ```
 
-This will ask the user a few questions and help them set up their express application.
+### Usage
+
+Initialize a new Express.js project:
+
+```bash
+exird run setup-exird
+```
+
+Run predefined workflows:
+
+```bash
+exird workflow
+```
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENCE).

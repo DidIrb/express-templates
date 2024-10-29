@@ -8,5 +8,7 @@ export * from "./shared/utils/copy"
 export * from "./shared/utils/init"
 export * from "./types"
 export * from "./addons/actions/shared/utils"
+export * from "./addons/workflows"
+export * from "./addons/actions/shared/actions"
 
 export * from "./registry"

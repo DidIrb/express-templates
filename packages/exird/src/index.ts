@@ -1,7 +1,9 @@
 import chalk from "chalk"
 import { program } from "commander"
-import { getAction, init, updateENV } from "exird-addons"
+import { runWorkflow, runActions, setupExird, updateENV, promptWorkflowSelection } from "exird-addons"
 import { readFileSync } from "fs"
+import path from "path"
+import fs from "fs"
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8"))
 
@@ -19,7 +21,7 @@ program
 program
   .command("init")
   .description("Initialize a new express project")
-  .action(() => init())
+  .action(() => setupExird.execute(false))
 
 program
   .command("env <variables...>")
@@ -38,18 +40,31 @@ program
   .command("run <actionName> [subActions...]")
   .description("Run a specified action")
   .option("-f, --force", "force the action to run")
-  .allowUnknownOption(true) // Allow unknown options to be passed as arguments
-  .action(async (actionName, subActions, options) => {
-    const action = getAction(actionName)
-    if (action) {
-      try {
-        await action.execute(options.force, subActions)
-      } catch (error) {
-        console.error(error)
+  .allowUnknownOption(true)
+  .action(runActions)
+
+program
+  .command("workflow [workflowName]")
+  .description("Run a specified workflow")
+  .action(async (workflowName) => {
+    const cwd = process.cwd()
+    const workflowsDir = path.join(cwd, ".exird", "workflows")
+
+    if (!workflowName) {
+      const files = fs
+        .readdirSync(workflowsDir)
+        .filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"))
+        .map((file) => file.replace(/\.yaml$|\.yml$/, ""))
+
+      if (files.length === 0) {
+        console.log("No workflows found in .exird/workflows.")
+        return
       }
-    } else {
-      console.log(`Action "${actionName}" not found.`)
+
+      workflowName = await promptWorkflowSelection(files)
     }
+
+    await runWorkflow(workflowName)
   })
 
 program.parse(process.argv)

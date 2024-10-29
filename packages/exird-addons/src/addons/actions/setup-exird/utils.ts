@@ -8,7 +8,6 @@ export const checkDirectory = async (dirPath: string): Promise<DirectoryCheckRes
     const packageJsonPath = path.join(dirPath, "package.json")
     const packageJsonExists = fs.existsSync(packageJsonPath)
     const packageJson = packageJsonExists ? await fs.promises.readFile(packageJsonPath, "utf-8").then(JSON.parse) : null
-
     const hasExpress = packageJson?.dependencies?.express || false
     const moduleSystem = packageJson?.type || null
     const packageManager = packageJson?.packageManager || null
@@ -16,8 +15,10 @@ export const checkDirectory = async (dirPath: string): Promise<DirectoryCheckRes
     const hasESLint = !!packageJson?.devDependencies?.eslint
     const name = packageJson?.name || null
     const entry = packageJson?.main || null
+
     const exirdDirPath = path.join(dirPath, ".exird")
-    const isExird = fs.existsSync(exirdDirPath)
+    const exirdConfigPath = path.join(exirdDirPath, "exird.config.json")
+    const isExird = fs.existsSync(exirdDirPath) && fs.existsSync(exirdConfigPath)
 
     // Check for database-related packages
     const dbDependencies = [
@@ -26,7 +27,6 @@ export const checkDirectory = async (dirPath: string): Promise<DirectoryCheckRes
       { name: "mysql2", type: "SQL" },
       { name: "pg", type: "SQL" },
     ]
-
     let database: string | null = null
     let databaseType: string | null = null
     for (const dbDep of dbDependencies) {
@@ -38,7 +38,6 @@ export const checkDirectory = async (dirPath: string): Promise<DirectoryCheckRes
     }
 
     const mapperDependencies = ["sequelize", "typeorm", "prisma", "mongoose"]
-
     let mapper: string | null = null
     for (const mapperDep of mapperDependencies) {
       if (packageJson?.dependencies?.[mapperDep] || packageJson?.devDependencies?.[mapperDep]) {

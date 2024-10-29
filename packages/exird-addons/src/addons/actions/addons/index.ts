@@ -3,7 +3,7 @@ import fs from "fs-extra"
 import { globalErrorHandler } from "../../../config/errorHandler"
 import { Action, ExirdConfig } from "../../../types"
 import { setupExird } from "../setup-exird"
-import { configPath, normalizeName, printMessage, updateConfig } from "../shared/utils"
+import { configPath, normalizeName, updateConfig } from "../shared/utils"
 import registerSubActions from "./registry"
 
 const subActions = registerSubActions()
@@ -25,7 +25,7 @@ export const addons: Action = {
         for (const subActionName of subActionsList) {
           const normalized = normalizeName(subActionName)
           if (config.addons[normalized] && !force) {
-            console.log(chalk.gray("EXT"), `Addons: "${normalized}" has already been run.`)
+            console.log(chalk.gray("EXT"), `Addons: "${normalized}" has already been executed.`)
             continue
           }
           const subAction = subActions[normalized]
@@ -36,7 +36,6 @@ export const addons: Action = {
             throw new Error(`Addons "${subActionName}" not found.`)
           }
         }
-        printMessage(chalk.green("SCS"), "Setup complete.")
       }
     } catch (error) {
       globalErrorHandler(error)

@@ -34,12 +34,8 @@ export function createWorkflowsFolder(projectPath: string) {
   fs.ensureDirSync(workflowsPath)
 }
 
-export function generateWorkflow({ projectPath, workflowName, steps }: GenerateWorkflowParams) {
-  const workflowContent = `
-steps:
-${steps.map((step) => `  - action: ${step}`).join("\n")}
-  `
+export function generateWorkflow({ projectPath, workflowName, content }: GenerateWorkflowParams) {
   const workflowsPath = path.join(projectPath, ".exird", "workflows")
   fs.ensureDirSync(workflowsPath)
-  fs.writeFileSync(path.join(workflowsPath, `${workflowName}.yml`), workflowContent)
+  fs.writeFileSync(path.join(workflowsPath, `${workflowName}.yml`), content)
 }

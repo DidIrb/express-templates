@@ -1,16 +1,14 @@
-
 ## MILESTONES
+
 - [x] Initialize CLI tool.
 - [x] Create 2 base templates.
 - [x] CLI tool successful scaffold of base templates.
 - [x] Deploy cli tool to npm.
 - [x] Deploy scaffolding tool
-- [ ] Set up add ons package
-- [ ] transfer of shared utility functions to **exird-addons** package
+- [x] Set up add ons package
+- [x] transfer of shared utility functions to **exird-addons** package
 
 ### Extensions
-
-
 
 ## Goals
 

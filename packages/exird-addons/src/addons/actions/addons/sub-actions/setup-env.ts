@@ -69,16 +69,16 @@ export const envContent = `
 # Environment
 NODE_ENV=development
 
-# Development variables
+# DEVELOPMENT variables
 PORT_DEVELOPMENT=3000
 
-# Test variables
+# TEST variables
 PORT_TEST=4000
 
-# Staging variables
+# STAGING variables
 PORT_STAGING=6000
 
-# Production variables
+# PRODUCTION variables
 PORT_PRODUCTION=8000
           `.trim()
 
